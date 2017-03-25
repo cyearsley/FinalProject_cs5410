@@ -1,0 +1,23 @@
+{
+  "name": "final_project",
+  "version": "1.0.0",
+  "description": "Final Project for CS5410 (game dev)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyearsley/FinalProject_cs5410.git"
+  },
+  "author": "cnyearsley@gmail.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/cyearsley/FinalProject_cs5410/issues"
+  },
+  "homepage": "https://github.com/cyearsley/FinalProject_cs5410#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
