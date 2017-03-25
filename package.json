@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/cyearsley/FinalProject_cs5410#readme",
   "dependencies": {
-    "express": "^4.15.2"
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "express-handlebars": "^3.0.0"
   }
 }
