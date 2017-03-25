@@ -1,0 +1,21 @@
+{
+  "name": "final_project",
+  "description": "Final Project for CS5410 (game dev)",
+  "main": "server.js",
+  "authors": [
+    "cnyearsley@gmail.com"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
