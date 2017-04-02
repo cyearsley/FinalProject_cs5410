@@ -18,8 +18,9 @@
   },
   "homepage": "https://github.com/cyearsley/FinalProject_cs5410#readme",
   "dependencies": {
-    "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "express-handlebars": "^3.0.0"
+    "path": "^0.12.7",
+    "socket.io": "^1.7.3",
+    "uuid": "^3.0.1"
   }
 }

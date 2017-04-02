@@ -1,43 +1,24 @@
-console.log("Starting Application...");
-
 var express = require('express');
-var bodyParser = require('body-parser')
+var path = require('path');
 var app = express();
-var port = 8000;
+var http = require('http').Server(app);
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+var socket = require('socket.io');
+var io = socket(http);
 
-// parse application/json
-app.use(bodyParser.json())
+var PORT = process.env.PORT || 8000;
 
-app.use(express.static('public'));
-app.set('views', './src/views');
+var gameRouter = require(path.join(__dirname, 'src/routes/route.game'))(socket, io);
+var gameSocket = require(path.join(__dirname, 'src/sockets/socket.game'))(io)
 
-var handlebars = require('express-handlebars');
-app.engine('.hbs', handlebars({extname: '.hbs'}));
-app.set('view engine', '.hbs');
+app.use('/play', gameRouter);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
-	console.log("on home page");
-	res.render('index', {title: 'TerraiCraft!', durpList: ['ichi','ni','san']});
+	res.sendFile(path.join(__dirname, 'src/views/index.html'));
 });
 
-app.get('/play', function (req, res) {
-	console.log("on play page");
-});
-
-app.post('/testing', function (req, res) {
-	console.log("REQ: ", req.body);
-	res.send({"error": 0}); 
-});
-
-// app.route('/testing')
-// 	.post(function (req, res) {
-// 		console.log("req: ", req.body);
-// 		res.send({"error": 0}); 
-// 	});
-
-app.listen(port, function (err) {
-	console.log("Running server on port: ", port);
+http.listen(PORT, function () {
+	console.log("listening on port: ", PORT);
 });
