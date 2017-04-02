@@ -1,0 +1,31 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-image: url('../resources/background.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#game-container {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	background-color: blue;
+	width: 1400px;
+	height: 800px;
+}
+
+canvas {
+	background-color: green;
+	width: 1400px;
+	height: 800px;
+	margin-left: -20px;
+	margin-top: -20px;
+	border: 10px solid black;
+}

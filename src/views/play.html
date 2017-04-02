@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8"></meta>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link href="style/play.css" rel="stylesheet"></link>
 	<script src="game/game.js"></script>
 	<style>
 		canvas {
@@ -22,19 +25,12 @@
 	</style>
 </head>
 <body>
-	<button id="click-to-create">Click to Create</button>&nbsp;&nbsp;&nbsp;<input type="text" id="create-room">
-	<br />
-	<br />
-	<br />
-	<button id="click-to-join">Click to Join</button>&nbsp;&nbsp;&nbsp;<input type="text" id="join-room">
-	<br />
-	<br />
-	<br />
-	<h2>Rooms:</h2>
-	<br />
-	<ul id="room-list">
-		
-	</ul>
+	<div id="game-container">
+		<canvas id="lobby-canvas"></canvas>
+		<canvas id="game-canvas" hidden=true></canvas>
+		<canvas id="menu-canvas" hidden=true></canvas>
+		<canvas id="game-menu-canvas" hidden=true></canvas>
+	</div>
 
 	<!-- <canvas id="player-canvas" width=700 height=700></canvas> -->
 	<script src="/socket.io/socket.io.js"></script>
@@ -43,22 +39,15 @@
 			var socket = io.connect('/the_game');
 
 			// Let the server know we need a list of all available rooms.
-			socket.emit('get rooms');
+			// socket.emit('get rooms');
 
-			$('#click-to-create').on('click', function (evt) {
-				socket.emit('create room', {rname: $('#create-room').val()});
-			});
+			// socket.emit('create room', {rname: $('#create-room').val()});
 
-			$('#click-to-join').on('click', function (evt) {
-				socket.emit('join room', {rname: $('#join-room').val()});
-			});
+			// socket.emit('join room', {rname: $('#join-room').val()});
 
 			// When the server tells us we need to update our 'rooms' list.
 			socket.on('show rooms', function (data) {
-				console.log("DATA: ", data);
-				$('#room-list')[0].innerHTML = '';
 				for (let ii = 0; ii < data.rooms.length; ii += 1) {
-					$('#room-list').append('<li>' + data.rooms[ii] + '</li>');
 					console.log("ROOM: ", data.rooms[ii]);
 				}
 			});
@@ -66,6 +55,7 @@
 			// TODO: implement a visual to the user if a message needs to be displayed.
 			socket.on('give feedback', function (data) {
 				console.log(data.msg);
+				console.alert(data.msg);
 			});
 		});
 	</script>

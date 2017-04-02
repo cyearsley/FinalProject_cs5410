@@ -1,1 +1,1 @@
-// console.log("GAME JS");
+console.log("GAME JS");
