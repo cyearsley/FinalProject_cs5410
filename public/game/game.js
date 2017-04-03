@@ -2,8 +2,21 @@
 SOCKET = io.connect('/the_game');
 
 SOCKET.on('give feedback', function (data) {
-	console.log(data.msg);
-	console.alert(data.msg);
+	if (data.open_p) {
+		var newData = {
+			title: 'NOTICE',
+			msg: 'YOU NEED TO SPECIFCY a MESSAGE'
+		};
+		Object.assign(newData, data);
+		$('#message-modal-title').html(newData.title);
+		$('#message-modal-body').html(newData.msg);
+		$('#message-modal').modal('show');
+	}
+	else {
+		setTimeout(function () {
+			$('#message-modal').modal('hide');
+		}, 1000);
+	}
 });
 
 var GameLoop = function () {

@@ -30,13 +30,38 @@
 </head>
 <body>
 	<div id="game-container">
-		<canvas id="background-canvas"></canvas>
-		<canvas id="game-canvas"></canvas>
+		<canvas id="background-canvas" width=1400 height=700></canvas>
+		<canvas id="game-canvas" width=1400 height=700></canvas>
+
+		<input type="text" id="join-input" class="lobby-input"></input>
+		<button id="join-submit-button" class="lobby-button">Join Session</button>
+
+		<input type="text" id="create-input" class="lobby-input"></input>
+		<button id="create-submit-button" class="lobby-button">Create Session</button>
 	</div>
 
+	<!-- Modal -->
+	<div id="message-modal" class="modal fade" role="dialog">
+	    <div class="modal-dialog">
+
+		    <!-- Modal content-->
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal">&times;</button>
+		            <h4 class="modal-title" id="message-modal-title"></h4>
+		        </div>
+		        <div class="modal-body" id="message-modal-body">
+		        </div>
+		        <!-- <div class="modal-footer" class="message-modal-footer">
+		            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        </div> -->
+		    </div>
+	  	</div>
+	</div>
 	<!-- <canvas id="player-canvas" width=700 height=700></canvas> -->
 	<script>
 		$(function () {
+			// $('#message-modal').modal('show');
 			// SOCKET.on('show rooms', function (data) {
 			// 	console.log("showing rooms", data)
 			// 	if (typeof _GS.lobbyScene !== 'undefined' && _GS.lobbyScene.sceneActive_p === true) {

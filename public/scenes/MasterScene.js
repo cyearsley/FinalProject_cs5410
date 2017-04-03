@@ -22,10 +22,10 @@ var MasterScene = function () {
         this.restore();
     };
     this.init = function () {
-        // context.clearRect(0, 0, canvas_background.width, canvas_background.height);
+        contextObj.context_game.clearRect(0, 0, canvas_background.width, canvas_background.height);
     };
     function beginRender () {
-        // context_background.clear();
+        contextObj.context_game.clear();
     };
 
     // ======================================================= //
@@ -45,11 +45,13 @@ var MasterScene = function () {
 
     var scenes = {
         lobby: new _GS.lobbyScene(canvasObj, contextObj),
+        options: null,
+        game: null,
         currentScene: 'lobby'
     };
 
     SOCKET.on('change scene', function (msg) {
-        
+
     });
 
     this.render = function () {
