@@ -26,6 +26,7 @@
 </head>
 <body>
 	<div id="game-container">
+		<canvas id="cloud-background-canvas"></canvas>
 		<canvas id="lobby-canvas"></canvas>
 		<canvas id="game-canvas" hidden=true></canvas>
 		<canvas id="menu-canvas" hidden=true></canvas>
@@ -36,24 +37,25 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		$(function () {
-			var socket = io.connect('/the_game');
-
+			SOCKET = io.connect('/the_game');
+			var GAMELOOP = new GameLoop();
+			GAMELOOP.init();
 			// Let the server know we need a list of all available rooms.
-			// socket.emit('get rooms');
+			// SOCKET.emit('get rooms');
 
-			// socket.emit('create room', {rname: $('#create-room').val()});
+			SOCKET.emit('create room', {rname: 'THE NEW ROOM'});
 
-			// socket.emit('join room', {rname: $('#join-room').val()});
+			// SOCKET.emit('join room', {rname: 'THE NEW ROOM'});
 
 			// When the server tells us we need to update our 'rooms' list.
-			socket.on('show rooms', function (data) {
+			SOCKET.on('show rooms', function (data) {
 				for (let ii = 0; ii < data.rooms.length; ii += 1) {
 					console.log("ROOM: ", data.rooms[ii]);
 				}
 			});
 
 			// TODO: implement a visual to the user if a message needs to be displayed.
-			socket.on('give feedback', function (data) {
+			SOCKET.on('give feedback', function (data) {
 				console.log(data.msg);
 				console.alert(data.msg);
 			});

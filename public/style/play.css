@@ -18,13 +18,17 @@ body {
 	margin: auto;
 	background-color: blue;
 	width: 1400px;
-	height: 800px;
+	height: 700px;
+}
+
+#cloud-background-canvas {
+	background-image: url('../resources/cloud-background.png');
 }
 
 canvas {
-	background-color: green;
+	background-color: none;
 	width: 1400px;
-	height: 800px;
+	height: 700px;
 	margin-left: -20px;
 	margin-top: -20px;
 	border: 10px solid black;

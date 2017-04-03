@@ -1,5 +1,50 @@
 var uuid = require('uuid');
 
+function createWorldArray (size) {
+	let width = 3000;
+	let height = 1000;
+	let worldArr = [];
+
+	for (let ii = 0; ii < 1000; ii += 1) {
+		worldArr.push([]);
+		for (let jj = 0; jj < 3000; jj += 1) {
+			if (ii < 250) {
+				worldArr[ii].push({
+					blockType: 'empty',
+					blockIndex_y: ii,
+					blockIndex_x: jj,
+					hp: 0
+				});
+			}
+			else if (ii < 251) {
+				worldArr[ii].push({
+					blockType: 'grass',
+					blockIndex_y: ii,
+					blockIndex_x: jj,
+					hp: 10
+				});
+			}
+			else if (ii < 275) {
+				worldArr[ii].push({
+					blockType: 'dirt',
+					blockIndex_y: ii,
+					blockIndex_x: jj,
+					hp: 10
+				});
+			}
+			else {
+				worldArr[ii].push({
+					blockType: 'stone',
+					blockIndex_y: ii,
+					blockIndex_x: jj,
+					hp: 20
+				});
+			}
+		}
+	}
+	return worldArr;
+}
+
 module.exports = function (io) {
 	io.of('/the_game').on('connection', function (socket) {
 		console.log("User " + socket.id + " connected!");
@@ -21,6 +66,10 @@ module.exports = function (io) {
 			if (typeof rooms[data.rname] === 'undefined' && data.rname.indexOf('/') === -1) {
 				leaveAllRooms();
 				socket.join(data.rname);
+
+				console.log("Before World Creation");
+				io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: createWorldArray()};
+				console.log("AFTER World Creation", io.nsps['/the_game'].adapter.rooms);
 
 				// To assign a custom attr to the room, do something like the following:
 					// io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: [[1,2,3],[4,5,6],[7,8,9]]};
