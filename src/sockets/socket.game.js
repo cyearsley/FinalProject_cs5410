@@ -80,6 +80,7 @@ module.exports = function (io) {
 
 		// get all available rooms
 		socket.on('get rooms', function () {
+			console.log("ROOOMS!");
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
 		});
 

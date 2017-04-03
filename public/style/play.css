@@ -21,7 +21,7 @@ body {
 	height: 700px;
 }
 
-#cloud-background-canvas {
+#background-canvas {
 	background-image: url('../resources/cloud-background.png');
 }
 

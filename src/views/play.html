@@ -6,7 +6,11 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link href="style/play.css" rel="stylesheet"></link>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="scenes/sceneInputs.js"></script>
+	<script src="scenes/MasterScene.js"></script>
 	<script src="game/game.js"></script>
+	<script src="scenes/lobbyScene.js"></script>
 	<style>
 		canvas {
 			position: absolute;
@@ -26,39 +30,45 @@
 </head>
 <body>
 	<div id="game-container">
-		<canvas id="cloud-background-canvas"></canvas>
-		<canvas id="lobby-canvas"></canvas>
-		<canvas id="game-canvas" hidden=true></canvas>
-		<canvas id="menu-canvas" hidden=true></canvas>
-		<canvas id="game-menu-canvas" hidden=true></canvas>
+		<canvas id="background-canvas"></canvas>
+		<canvas id="game-canvas"></canvas>
 	</div>
 
 	<!-- <canvas id="player-canvas" width=700 height=700></canvas> -->
-	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		$(function () {
-			SOCKET = io.connect('/the_game');
+			// SOCKET.on('show rooms', function (data) {
+			// 	console.log("showing rooms", data)
+			// 	if (typeof _GS.lobbyScene !== 'undefined' && _GS.lobbyScene.sceneActive_p === true) {
+			// 		for (let ii = 0; ii < data.rooms.length; ii += 1) {
+			// 			console.log("ROOM: ", data.rooms[ii]);
+			// 		}
+			// 	}
+			// });
+			// SOCKET = io.connect('/the_game');
+
+			// SOCKET.on('give feedback', function (data) {
+			// 	console.log(data.msg);
+			// 	console.alert(data.msg);
+			// });
+
 			var GAMELOOP = new GameLoop();
 			GAMELOOP.init();
 			// Let the server know we need a list of all available rooms.
 			// SOCKET.emit('get rooms');
 
-			SOCKET.emit('create room', {rname: 'THE NEW ROOM'});
+			// SOCKET.emit('create room', {rname: 'THE NEW ROOM'});
 
 			// SOCKET.emit('join room', {rname: 'THE NEW ROOM'});
 
 			// When the server tells us we need to update our 'rooms' list.
-			SOCKET.on('show rooms', function (data) {
-				for (let ii = 0; ii < data.rooms.length; ii += 1) {
-					console.log("ROOM: ", data.rooms[ii]);
-				}
-			});
+			// SOCKET.on('show rooms', function (data) {
+			// 	for (let ii = 0; ii < data.rooms.length; ii += 1) {
+			// 		console.log("ROOM: ", data.rooms[ii]);
+			// 	}
+			// });
 
 			// TODO: implement a visual to the user if a message needs to be displayed.
-			SOCKET.on('give feedback', function (data) {
-				console.log(data.msg);
-				console.alert(data.msg);
-			});
 		});
 	</script>
 </body>
