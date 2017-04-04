@@ -2,7 +2,7 @@
 SOCKET = io.connect('/the_game');
 
 SOCKET.on('give feedback', function (data) {
-	if (data.open_p) {
+	if (data.open_p || data.openThenClose_p) {
 		var newData = {
 			title: 'NOTICE',
 			msg: 'YOU NEED TO SPECIFCY a MESSAGE'
@@ -11,11 +11,16 @@ SOCKET.on('give feedback', function (data) {
 		$('#message-modal-title').html(newData.title);
 		$('#message-modal-body').html(newData.msg);
 		$('#message-modal').modal('show');
+		if (data.openThenClose_p === true) {
+			setTimeout(function () {
+				$('#message-modal').modal('hide');
+			}, 3000);
+		}
 	}
 	else {
 		setTimeout(function () {
 			$('#message-modal').modal('hide');
-		}, 1000);
+		}, 2000);
 	}
 });
 

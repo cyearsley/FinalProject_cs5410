@@ -55,52 +55,74 @@ module.exports = function (io) {
 		socket.on('join room', function (data) {
 			var rooms = io.nsps['/the_game'].adapter.rooms;
 
-			if (typeof rooms[data.rname] !== 'undefined') {
+			if (data.rname === '') {
+				socket.emit('give feedback', {
+					title: '<span style="color:red;">ERROR</span>',
+					openThenClose_p: true,
+					msg: '<h2>You must specify a name of a world to join!</h2><br /><br /><p>Your input cannot be empty</p>'
+				});
+			}
+			else if (typeof io.nsps['/the_game'].adapter.rooms[data.rname] !== 'undefined' && io.nsps['/the_game'].adapter.rooms[data.rname].sockets[socket.id] === true) {
+				socket.emit('give feedback', {
+					title: '<span style="color:red;">ERROR</span>',
+					openThenClose_p: true,
+					msg: '<h2>You are already a member of this world!</h2>'
+				});
+			}
+			else if (typeof rooms[data.rname] !== 'undefined') {
 				leaveAllRooms();
 				socket.join(data.rname);
 				emitPublicMessage('show rooms', {rooms: getAllRooms()});
+			}
+			else {
+				socket.emit('give feedback', {
+					title: '<span style="color:red;">WARNING</span>',
+					openThenClose_p: true,
+					msg: '<h2>We could not find a world with the name: <span style="color: green">"' + data.rname + '"</span></h2><br /><br /><p>Please use a name from the list provided.</p>'
+				});
 			}
 		});
 
 		// Create an existing session
 		socket.on('create room', function (data) {
 			var rooms = io.nsps['/the_game'].adapter.rooms;
-			if (data.createOrJoin === true) {
-				if (typeof rooms[data.rname] === 'undefined' && data.rname.indexOf('/') === -1) {
+			if (data.rname.indexOf('/') === -1) {
+
+				if (typeof rooms[data.rname] === 'undefined' && lobbyNameSpaces.indexOf(data.rname) === -1) {
 					leaveAllRooms();
 					socket.join(data.rname);
 
-					if (lobbyNameSpaces.indexOf(data.rname) === -1) {
-						io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: createWorldArray()};
-						console.log("NEW ROOM: ", rooms)
-					}
-
-					emitPublicMessage('show rooms', {rooms: getAllRooms()});
+					socket.emit('give feedback', {
+						title: 'Creating a new world with the name: <span style="color:red;">' + data.rname + '</span>',
+						open_p: true,
+						msg: '<h2>Generating a new world just for you!</h2><br /><br /><p>This should only take a second...</p>'
+					});
+					io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: createWorldArray()};
+					socket.emit('give feedback', {open_p: false});
 				}
-				else {
-					if (typeof rooms[data.rname] !== 'undefined') {
+				else if (typeof rooms[data.rname] !== 'undefined' && lobbyNameSpaces.indexOf(data.rname) === -1) {
+					socket.emit('give feedback', {
+						title: '<span style="color:red;">ERROR</span>',
+						openThenClose_p: true,
+						msg: '<h2>There already exists a world with that name!</h2><br /><br /><p>Either join this world, or create another world with a different name.</p>'
+					});
+				}
+				else if (lobbyNameSpaces.indexOf(data.rname) !== -1) {
+					if (typeof io.nsps['/the_game'].adapter.rooms.lobby === 'undefined' || io.nsps['/the_game'].adapter.rooms.lobby.sockets[socket.id] !== true) {
+						socket.emit('give feedback', {msg: 'JOINING LOBBY', openThenClose_p: true});
 						leaveAllRooms();
 						socket.join(data.rname);
-						emitPublicMessage('show rooms', {rooms: getAllRooms()});
 					}
 				}
+
+				emitPublicMessage('show rooms', {rooms: getAllRooms()});
 			}
 			else {
-				if (typeof rooms[data.rname] === 'undefined' && data.rname.indexOf('/') === -1) {
-					leaveAllRooms();
-					socket.join(data.rname);
-
-					console.log("Before World Creation");
-					socket.emit('give feedback', {title:'BROOOO', msg: 'Your world is being generated!', open_p: true});
-					io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: createWorldArray()};
-					socket.emit('give feedback', {open_p: false})
-					console.log("AFTER World Creation", io.nsps['/the_game'].adapter.rooms);
-
-					// To assign a custom attr to the room, do something like the following:
-						// io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: [[1,2,3],[4,5,6],[7,8,9]]};
-						
-					emitPublicMessage('show rooms', {rooms: getAllRooms()});
-				}
+				socket.emit('give feedback', {
+					title: '<span style="color:red;">ERROR</span>',
+					openThenClose_p: true,
+					msg: '<h2>Something was wrong with your world\'s name!</h2><br /><br /><p>Be sure the world\'s name doesn\'t include "/"</p>'
+				});
 			}
 		});
 

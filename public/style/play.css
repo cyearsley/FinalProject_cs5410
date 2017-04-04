@@ -74,6 +74,10 @@ body {
 	background-color: #b30000;
 }
 
+#message-modal {
+	margin-top: 15%;
+}
+
 canvas {
 	background-color: none;
 	width: 1400px;

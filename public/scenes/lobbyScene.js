@@ -14,8 +14,13 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
     SOCKET.emit('create room', {rname: 'lobby', createOrJoin: true});
 
 	$('#create-submit-button').on('click', function (evt) {
-		console.log($('#create-input').val())
 		SOCKET.emit('create room', {rname: $('#create-input').val()});
+		$('#create-input').val('');
+	});
+
+	$('#join-submit-button').on('click', function (evt) {
+		SOCKET.emit('join room', {rname: $('#join-input').val()});
+		$('#join-input').val('');
 	});
 
     this.renderScene = function () {
