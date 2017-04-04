@@ -23,20 +23,13 @@ module.exports = function (io) {
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
 		});
 
+		// get a rooms sub world
+
 		// If a user disconnects from the room.
 		socket.on('disconnect', function () {
 			console.log("User " + socket.id + " DISCONNECTED!");
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
 		});
-
-		// Force this socket to leave all rooms.
-		function leaveAllRooms () {
-			var rooms = io.nsps['/the_game'].adapter.rooms;
-
-			for (key in rooms) {
-				socket.leave(key);
-			}			
-		}
 
 		// emit a message to everyone in the '/the_game' namespace.
 		function emitPublicMessage(name, msg) {

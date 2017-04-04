@@ -1,5 +1,7 @@
 var MasterScene = function () {
 
+    SOCKET.emit('create room', {rname: 'lobby', createOrJoin: true});
+
     // ======================================================= //
     //
     // C A N V A S - S P E C I F I C S
@@ -44,38 +46,45 @@ var MasterScene = function () {
     // };
 
     var scenes = {
-        lobby: new _GS.lobbyScene(canvasObj, contextObj),
+        // lobby: new _GS.lobbyScene(canvasObj, contextObj),
+        lobby: null,
         options: null,
-        game: null,
-        currentScene: 'lobby'
+        play: null,
+        currentScene: null
     };
 
-    SOCKET.on('change scene', function (msg) {
-
+    SOCKET.on('change scene', function (data) {
+        console.log("CHANGING SCENE!: ", data.newScene + 'Scene');
+        scenes.currentScene = data.newScene;
+        scenes[data.newScene] = new _GS[data.newScene + 'Scene'](canvasObj, contextObj);
     });
 
     this.render = function () {
         // Render the scene, and all the characters in it.
-        beginRender();
-        // context.drawImage(backgroundImage,0,0,canvas.width,canvas.height);
-        for (key in scenes) {
-            if (scenes[key] && key != 'currentScene') {
-                if (key === scenes.currentScene) {
-                    scenes[key].renderScene();
+        if (scenes.currentScene !== null) {
+            beginRender();
+            // context.drawImage(backgroundImage,0,0,canvas.width,canvas.height);
+            for (key in scenes) {
+                if (scenes[key] && key != 'currentScene') {
+                    if (key === scenes.currentScene) {
+                        scenes[key].renderScene();
+                    }
                 }
             }
         }
     };
 
     this.update = function (timestamp) {
-        if (contextObj.context_background.globalAlpha < 1.1) {
-            contextObj.context_background.globalAlpha += 0.025;
-        }
-        // Update the scene, and all the characters in it.
-        for (key in scenes) {
-            if (scenes[key] && key != 'currentScene') {
-                if (key === scenes.currentScene) {
-                    scenes[key].updateScene(timestamp);
+        if (scenes.currentScene !== null) {
+            if (contextObj.context_background.globalAlpha < 1.1) {
+                contextObj.context_background.globalAlpha += 0.025;
+            }
+            // Update the scene, and all the characters in it.
+            for (key in scenes) {
+                if (scenes[key] && key != 'currentScene') {
+                    if (key === scenes.currentScene) {
+                        scenes[key].updateScene(timestamp);
+                    }
                 }
             }
         }
@@ -83,10 +92,12 @@ var MasterScene = function () {
 
     this.handleInput = function () {
         // Handle the input for the scene.
-        for (key in scenes) {
-            if (scenes[key] && key != 'currentScene') {
-                if (key === scenes.currentScene) {
-                    scenes[key].handleInputScene();
+        if (scenes.currentScene !== null) {
+            for (key in scenes) {
+                if (scenes[key] && key != 'currentScene') {
+                    if (key === scenes.currentScene) {
+                        scenes[key].handleInputScene();
+                    }
                 }
             }
         }

@@ -11,6 +11,7 @@
 	<script src="scenes/MasterScene.js"></script>
 	<script src="game/game.js"></script>
 	<script src="scenes/lobbyScene.js"></script>
+	<script src="scenes/playScene.js"></script>
 	<style>
 		canvas {
 			position: absolute;
@@ -33,11 +34,11 @@
 		<canvas id="background-canvas" width=1400 height=700></canvas>
 		<canvas id="game-canvas" width=1400 height=700></canvas>
 
-		<input type="text" id="join-input" class="lobby-input"></input>
-		<button id="join-submit-button" class="lobby-button">Join Session</button>
+		<input type="text" id="join-input" class="lobby-input" hidden=true></input>
+		<button id="join-submit-button" class="lobby-button" hidden=true>Join Session</button>
 
-		<input type="text" id="create-input" class="lobby-input"></input>
-		<button id="create-submit-button" class="lobby-button">Create Session</button>
+		<input type="text" id="create-input" class="lobby-input" hidden=true></input>
+		<button id="create-submit-button" class="lobby-button" hidden=true>Create Session</button>
 	</div>
 
 	<!-- Modal -->
@@ -47,53 +48,19 @@
 		    <!-- Modal content-->
 		    <div class="modal-content">
 		        <div class="modal-header">
-		            <button type="button" class="close" data-dismiss="modal">&times;</button>
+		            <button type="button" class="close" data-dismiss="modal" style="float: right; width: 50px;">&times;</button>
 		            <h4 class="modal-title" id="message-modal-title"></h4>
 		        </div>
 		        <div class="modal-body" id="message-modal-body">
 		        </div>
-		        <!-- <div class="modal-footer" class="message-modal-footer">
-		            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        </div> -->
 		    </div>
 	  	</div>
 	</div>
-	<!-- <canvas id="player-canvas" width=700 height=700></canvas> -->
+
 	<script>
 		$(function () {
-			// $('#message-modal').modal('show');
-			// SOCKET.on('show rooms', function (data) {
-			// 	console.log("showing rooms", data)
-			// 	if (typeof _GS.lobbyScene !== 'undefined' && _GS.lobbyScene.sceneActive_p === true) {
-			// 		for (let ii = 0; ii < data.rooms.length; ii += 1) {
-			// 			console.log("ROOM: ", data.rooms[ii]);
-			// 		}
-			// 	}
-			// });
-			// SOCKET = io.connect('/the_game');
-
-			// SOCKET.on('give feedback', function (data) {
-			// 	console.log(data.msg);
-			// 	console.alert(data.msg);
-			// });
-
 			var GAMELOOP = new GameLoop();
 			GAMELOOP.init();
-			// Let the server know we need a list of all available rooms.
-			// SOCKET.emit('get rooms');
-
-			// SOCKET.emit('create room', {rname: 'THE NEW ROOM'});
-
-			// SOCKET.emit('join room', {rname: 'THE NEW ROOM'});
-
-			// When the server tells us we need to update our 'rooms' list.
-			// SOCKET.on('show rooms', function (data) {
-			// 	for (let ii = 0; ii < data.rooms.length; ii += 1) {
-			// 		console.log("ROOM: ", data.rooms[ii]);
-			// 	}
-			// });
-
-			// TODO: implement a visual to the user if a message needs to be displayed.
 		});
 	</script>
 </body>

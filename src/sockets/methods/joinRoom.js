@@ -20,6 +20,8 @@ module.exports = function (data, socket, io) {
 	else if (typeof rooms[data.rname] !== 'undefined') {
 		leaveAllRooms(socket, io);
 		socket.join(data.rname);
+
+		socket.emit('change scene', {newScene: 'play'});
 		// emitPublicMessage('show rooms', {rooms: getAllRooms()});
 	}
 	else {

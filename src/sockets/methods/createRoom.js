@@ -18,6 +18,8 @@ module.exports = function (data, socket, io) {
 			});
 			io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: createWorldArray()};
 			socket.emit('give feedback', {open_p: false});
+
+			socket.emit('change scene', {newScene: 'play'});
 		}
 		else if (typeof rooms[data.rname] !== 'undefined' && lobbyNameSpaces.indexOf(data.rname) === -1) {
 			socket.emit('give feedback', {
@@ -31,6 +33,8 @@ module.exports = function (data, socket, io) {
 				socket.emit('give feedback', {msg: 'JOINING LOBBY', openThenClose_p: true});
 				leaveAllRooms(socket, io);
 				socket.join(data.rname);
+
+				socket.emit('change scene', {newScene: 'lobby'});
 			}
 		}
 
