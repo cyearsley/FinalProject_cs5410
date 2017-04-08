@@ -11,6 +11,8 @@ module.exports = function (data, socket, io) {
 			openThenClose_p: true,
 			msg: '<h2>You must specify a name of a world to join!</h2><br /><br /><p>Your input cannot be empty</p>'
 		});
+
+		return false;
 	}
 
 	// if the user tries to join one of the default rooms.
@@ -20,6 +22,8 @@ module.exports = function (data, socket, io) {
 			openThenClose_p: true,
 			msg: '<h2>That is not a valid entry!</h2>'
 		});
+
+		return false;
 	}
 
 	// if the user tries to join a room it's already a part of.
@@ -29,6 +33,8 @@ module.exports = function (data, socket, io) {
 			openThenClose_p: true,
 			msg: '<h2>You are already a member of this world!</h2>'
 		});
+
+		return false;
 	}
 
 	// if the user tries to join a valid room... let them join!
@@ -36,8 +42,23 @@ module.exports = function (data, socket, io) {
 		leaveAllRooms(socket, io);
 		socket.join(data.rname);
 
+		// get the world which belongs to the room being joined. 
+		let newWorld = io.nsps['/the_game'].adapter.rooms[data.rname].world.struct;
+
+		// set the x position to the middle of the map.
+		socket.positionX = Math.floor(newWorld[0].length/2)
+
+		// find the highest point that is not empty, and set that as the player's y position.
+		for (let ii = 0; ii < newWorld.length; ii += 1) {
+			if (newWorld[ii][socket.positionX].blockType !== 'empty') {
+				socket.positionY = ii - 2;
+				break;
+			}
+		}
+
 		socket.emit('change scene', {newScene: 'play'});
-		// emitPublicMessage('show rooms', {rooms: getAllRooms()});
+
+		return true;
 	}
 
 	// if the user tries to join a room that does not exist.
@@ -47,5 +68,7 @@ module.exports = function (data, socket, io) {
 			openThenClose_p: true,
 			msg: '<h2>We could not find a world with the name: <span style="color: green">"' + data.rname + '"</span></h2><br /><br /><p>Please use a name from the list provided.</p>'
 		});
+
+		return false;
 	}
 }

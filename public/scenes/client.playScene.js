@@ -14,5 +14,6 @@ _GS.playScene = function (canvasObj, contextObj) {
     };
     this.handleInputScene = function () {};
 };
-_GS.playScene.subWorld = [];
 
+// This will be a 2D array retrieved from the server.
+_GS.playScene.divisionToRender = [];

@@ -8,13 +8,21 @@ module.exports = function (io) {
 
 		// Join an existing session
 		socket.on('join room', function (data) {
-			joinRoom(data, socket, io);
+			if (joinRoom(data, socket, io)) {
+				console.log("Joined room!");
+				// console.log("THE IO: ", socket.rooms);
+				// console.log("THE IO: ", io.nsps['/the_game'].connected[socket.id]);
+			}
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
 		});
 
 		// Create an existing session
 		socket.on('create room', function (data) {
-			createRoom(data, socket, io);
+			if (createRoom(data, socket, io)) {
+				console.log("Created room!");
+				// console.log("THE IO: ", socket.rooms);
+				// console.log("THE IO: ", io.nsps['/the_game'].connected[socket.id]);
+			}
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
 		});
 
