@@ -10,13 +10,11 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
     var joinWindowStart = {x: canvasWidth - 50 - windowWidth, y: 25};
 
     _GS.lobbyScene.sceneActive_p = true;
-    console.log("lobby!!!")
-    // SOCKET.emit('create room', {rname: 'lobby', createOrJoin: true});
+    console.log("in the lobby!!!")
 
     // Make the UI visible
     $('.lobby-input').prop('hidden', false);
     $('.lobby-button').prop('hidden', false);
-
 
     this.renderScene = function () {
     	contextObj.context_game.save();
@@ -42,6 +40,7 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
 };
 _GS.lobbyScene.rooms = [];
 
+// Declare DOM event listeners once... and only once...
 $(function () {
 	SOCKET.on('show rooms', function (data) {
 		console.log("showing rooms", data)
@@ -52,6 +51,7 @@ $(function () {
 			}
 		}
 	});
+
 	$('#create-submit-button').on('click', function (evt) {
 		console.log("CREEEEATE");
 		SOCKET.emit('create room', {rname: $('#create-input').val()});
@@ -59,6 +59,7 @@ $(function () {
 	});
 
 	$('#join-submit-button').on('click', function (evt) {
+		console.log("JOOOOOOOIIIIIN");
 		SOCKET.emit('join room', {rname: $('#join-input').val()});
 		$('#join-input').val('');
 	});

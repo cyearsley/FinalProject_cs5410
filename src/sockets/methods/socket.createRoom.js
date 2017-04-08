@@ -7,6 +7,7 @@ module.exports = function (data, socket, io) {
 
 	if (data.rname.indexOf('/') === -1) {
 
+		// if the user tries to create a valid, non-existing room... let them!
 		if (typeof rooms[data.rname] === 'undefined' && lobbyNameSpaces.indexOf(data.rname) === -1) {
 			leaveAllRooms(socket, io);
 			socket.join(data.rname);
@@ -21,6 +22,8 @@ module.exports = function (data, socket, io) {
 
 			socket.emit('change scene', {newScene: 'play'});
 		}
+
+		// if a user tries to create a room that already exists...
 		else if (typeof rooms[data.rname] !== 'undefined' && lobbyNameSpaces.indexOf(data.rname) === -1) {
 			socket.emit('give feedback', {
 				title: '<span style="color:red;">ERROR</span>',
@@ -28,6 +31,8 @@ module.exports = function (data, socket, io) {
 				msg: '<h2>There already exists a world with that name!</h2><br /><br /><p>Either join this world, or create another world with a different name.</p>'
 			});
 		}
+
+		// if a user tries to create/join a default room...
 		else if (lobbyNameSpaces.indexOf(data.rname) !== -1) {
 			if (typeof io.nsps['/the_game'].adapter.rooms.lobby === 'undefined' || io.nsps['/the_game'].adapter.rooms.lobby.sockets[socket.id] !== true) {
 				socket.emit('give feedback', {msg: 'JOINING LOBBY', openThenClose_p: true});
@@ -38,8 +43,9 @@ module.exports = function (data, socket, io) {
 			}
 		}
 
-		// emitPublicMessage('show rooms', {rooms: getAllRooms()});
 	}
+
+	// if there is some other error in the room's declared name.
 	else {
 		socket.emit('give feedback', {
 			title: '<span style="color:red;">ERROR</span>',

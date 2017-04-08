@@ -23,8 +23,6 @@ module.exports = function (io) {
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
 		});
 
-		// get a rooms sub world
-
 		// If a user disconnects from the room.
 		socket.on('disconnect', function () {
 			console.log("User " + socket.id + " DISCONNECTED!");
