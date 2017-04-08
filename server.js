@@ -22,3 +22,20 @@ app.get('/', function (req, res) {
 http.listen(PORT, function () {
 	console.log("listening on port: ", PORT);
 });
+
+// global.roomPs should have a structure of:
+// {
+// 	<roomname>: {
+// 		players: {
+// 			<player-socket-id>: {
+// 				x: '',
+// 				y: ''
+// 			},
+// 			<player-socket-id>: {
+// 				x: '',
+// 				y: ''
+// 			}
+// 		}
+// 	}
+// }
+global.roomPs = {};

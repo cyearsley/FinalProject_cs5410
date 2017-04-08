@@ -1,6 +1,6 @@
 var uuid = require('uuid');
-var createRoom = require('./methods/createRoom.js');
-var joinRoom = require('./methods/joinRoom.js');
+var createRoom = require('./methods/socket.createRoom.js');
+var joinRoom = require('./methods/socket.joinRoom.js');
 
 module.exports = function (io) {
 	io.of('/the_game').on('connection', function (socket) {

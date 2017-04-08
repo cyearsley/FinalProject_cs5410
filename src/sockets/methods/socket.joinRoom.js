@@ -1,4 +1,4 @@
-var leaveAllRooms = require('./../../util/leaveAllRooms.js');
+var leaveAllRooms = require('./../../util/server.leaveAllRooms.js');
 
 module.exports = function (data, socket, io) {
 	var rooms = io.nsps['/the_game'].adapter.rooms;
