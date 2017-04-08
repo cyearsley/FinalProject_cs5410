@@ -42,19 +42,23 @@ module.exports = function (data, socket, io) {
 		leaveAllRooms(socket, io);
 		socket.join(data.rname);
 
-		// get the world which belongs to the room being joined. 
-		let newWorld = io.nsps['/the_game'].adapter.rooms[data.rname].world.struct;
-
-		// set the x position to the middle of the map.
-		socket.positionX = Math.floor(newWorld[0].length/2)
+		let newWorld = io.nsps['/the_game'].adapter.rooms[data.rname].world;
+		
+		// assign the players starting x/y positions.
+		// set the player's x position in the middle of the map.
+		socket.positionX = Math.floor(newWorld.struct[0].length/2)
 
 		// find the highest point that is not empty, and set that as the player's y position.
-		for (let ii = 0; ii < newWorld.length; ii += 1) {
-			if (newWorld[ii][socket.positionX].blockType !== 'empty') {
+		for (let ii = 0; ii < newWorld.struct.length; ii += 1) {
+			if (newWorld.struct[ii][socket.positionX].blockType !== 'empty') {
 				socket.positionY = ii - 2;
 				break;
 			}
 		}
+
+		// assign the actual x/y positions
+		socket.actualY = socket.positionY*newWorld.blockWH;
+		socket.actualX = socket.positionX*newWorld.blockWH;
 
 		socket.emit('change scene', {newScene: 'play'});
 
