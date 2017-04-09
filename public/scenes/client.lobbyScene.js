@@ -40,17 +40,19 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
 };
 _GS.lobbyScene.rooms = [];
 
+// Declare socket listeners.
+SOCKET.on('show rooms', function (data) {
+	console.log("showing rooms", data)
+	if (typeof _GS.lobbyScene !== 'undefined' && _GS.lobbyScene.sceneActive_p === true) {
+		_GS.lobbyScene.rooms = data.rooms;
+		for (let ii = 0; ii < data.rooms.length; ii += 1) {
+			console.log("ROOM: ", data.rooms[ii]);
+		}
+	}
+});
+
 // Declare DOM event listeners once... and only once...
 $(function () {
-	SOCKET.on('show rooms', function (data) {
-		console.log("showing rooms", data)
-		if (typeof _GS.lobbyScene !== 'undefined' && _GS.lobbyScene.sceneActive_p === true) {
-			_GS.lobbyScene.rooms = data.rooms;
-			for (let ii = 0; ii < data.rooms.length; ii += 1) {
-				console.log("ROOM: ", data.rooms[ii]);
-			}
-		}
-	});
 
 	$('#create-submit-button').on('click', function (evt) {
 		console.log("CREEEEATE");

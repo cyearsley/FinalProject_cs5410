@@ -36,3 +36,11 @@ _GS.playScene = function (canvasObj, contextObj) {
 
 // This will be a 2D array retrieved from the server.
 _GS.playScene.divisionToRender = [];
+
+// This will be an array of object (where each object represents a player).
+_GS.players = [];
+
+// Declare socket listeners.
+SOCKET.on('update players', function (msg) {
+    _GS.players = msg.players;    
+});
