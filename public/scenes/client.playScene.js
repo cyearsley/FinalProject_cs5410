@@ -1,8 +1,11 @@
-var _GS = _GS || {};
+var _GS = _GS || {
+    blockWH: 30
+};
 _GS.playScene = function (canvasObj, contextObj) {
     var characters = [];
 
-    SOCKET.emit('get world properties');
+    // SOCKET.emit('get world properties');
+    SOCKET.emit('get rendered division', {blockWH: _GS.blockWH});
 
     // $('.lobby-input').prop('hidden', true);
     // $('.lobby-button').prop('hidden', true);
@@ -30,7 +33,7 @@ _GS.playScene = function (canvasObj, contextObj) {
     // ====================================================================================================================== //
 
     this.renderScene = function () {
-
+        
     };
     this.updateScene = function () {
     	// console.log("UPDATE PLAY SCENE!");
@@ -68,9 +71,11 @@ SOCKET.on('update players', function (msg) {
 });
 
 SOCKET.on('update rendered division', function (msg) {
-    _GS.playScene.divisionToRender = msg.divisionToRender;
+    console.log("NEW rendered division: ", msg);
+    _GS.playScene.divisionToRender = msg;
 });
 
 SOCKET.on('update world properties', function (msg) {
     _GS.worldProperties = msg.worldProperties;
+    console.log("NEW world props: ", _GS.worldProperties);
 });

@@ -2,6 +2,8 @@ var uuid = require('uuid');
 var createRoom = require('./methods/socket.createRoom.js');
 var joinRoom = require('./methods/socket.joinRoom.js');
 var leaveAllRooms = require('./../util/server.leaveAllRooms.js');
+var getRenderedDivision = require('./../util/server.getRenderedDivision.js');
+var getMyRoom = require('./../util/server.getMyRoom.js');
 
 module.exports = function (io) {
 	io.of('/the_game').on('connection', function (socket) {
@@ -33,6 +35,22 @@ module.exports = function (io) {
 		// get all available rooms
 		socket.on('get rooms', function () {
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
+		});
+
+		// client requesting world properties.
+		socket.on('get world properties', function () {
+			let world = io.nsps['/the_game'].adapter.rooms[Object.keys(socket.rooms)[0]].world;
+			socket.emit('update world properties', {
+				worldProperties: {
+					blockWH: world.blockWH,
+					worldName: Object.keys(socket.rooms)[0]
+				}
+			});
+		});
+
+		socket.on('get rendered division', function (msg) {
+			console.log("GET MY ROOM: ", getRenderedDivision(socket.positionX, socket.positionY, +msg.blockWH, getMyRoom(socket, io).world.struct))
+			socket.emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
 		});
 
 		// If a user disconnects from the room.
