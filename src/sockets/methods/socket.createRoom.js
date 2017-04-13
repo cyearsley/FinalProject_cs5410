@@ -1,5 +1,6 @@
 var leaveAllRooms = require('./../../util/server.leaveAllRooms.js');
 var createWorldArray = require('./../../util/server.createWorldArray.js');
+var getAllPlayers = require('./../../util/server.getAllPlayers.js');
 
 // returns true if a user successfully creates a room that isn't a default room.
 module.exports = function (data, socket, io) {
@@ -13,6 +14,7 @@ module.exports = function (data, socket, io) {
 			leaveAllRooms(socket, io);
 			socket.join(data.rname);
 
+
 			socket.emit('give feedback', {
 				title: 'Creating a new world with the name: <span style="color:red;">' + data.rname + '</span>',
 				open_p: true,
@@ -20,7 +22,16 @@ module.exports = function (data, socket, io) {
 			});
 
 			// Where blockWH is the actual width/height of a block.
-			io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: createWorldArray(), blockWH: 10};
+			io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: createWorldArray(), blockWH: 30};
+
+			io.nsps['/the_game'].adapter.rooms[data.rname].updateState = function () {
+				let msg = {players: []};
+
+				msg.players = getAllPlayers(socket, io, data.rname);
+
+				socket.emit('update players', msg);
+				socket.broadcast.emit('update players', msg);
+			};
 
 			let newWorld = io.nsps['/the_game'].adapter.rooms[data.rname].world;
 			

@@ -2,6 +2,8 @@ var _GS = _GS || {};
 _GS.playScene = function (canvasObj, contextObj) {
     var characters = [];
 
+    SOCKET.emit('get world properties');
+
     // $('.lobby-input').prop('hidden', true);
     // $('.lobby-button').prop('hidden', true);
 
@@ -27,20 +29,48 @@ _GS.playScene = function (canvasObj, contextObj) {
     //          Author: cnyearsley@gmail.com
     // ====================================================================================================================== //
 
-    this.renderScene = function () {};
-    this.updateScene = function () {
-    	console.log("UPDATE PLAY SCENE!");
+    this.renderScene = function () {
+
     };
-    this.handleInputScene = function () {};
+    this.updateScene = function () {
+    	// console.log("UPDATE PLAY SCENE!");
+    };
+    this.handleInputScene = function () {
+
+    };
 };
 
 // This will be a 2D array retrieved from the server.
 _GS.playScene.divisionToRender = [];
 
-// This will be an array of object (where each object represents a player).
+// All players should have a socket id and an x/y position.
+
+// This will be an array of objects (where each object represents a player).
 _GS.players = [];
+
+// An object that represents the current player.
+_GS.currentPlayer = {};
+
+// An object that stores block width/height and the buffer width/height
+_GS.worldProperties = {};
 
 // Declare socket listeners.
 SOCKET.on('update players', function (msg) {
-    _GS.players = msg.players;    
+
+    // get the current player.
+    for (key in msg.players) {
+        if (+msg.players[key].socket_id === +SOCKET.id) {
+            _GS.currentPlayer = msg.players[key];
+        }
+    }
+    _GS.players = msg.players;
+    console.log("PLAYERS: ", _GS.players[0].x);    
+});
+
+SOCKET.on('update rendered division', function (msg) {
+    _GS.playScene.divisionToRender = msg.divisionToRender;
+});
+
+SOCKET.on('update world properties', function (msg) {
+    _GS.worldProperties = msg.worldProperties;
 });

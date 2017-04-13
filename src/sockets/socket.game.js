@@ -1,6 +1,7 @@
 var uuid = require('uuid');
 var createRoom = require('./methods/socket.createRoom.js');
 var joinRoom = require('./methods/socket.joinRoom.js');
+var leaveAllRooms = require('./../util/server.leaveAllRooms.js');
 
 module.exports = function (io) {
 	io.of('/the_game').on('connection', function (socket) {
@@ -20,6 +21,9 @@ module.exports = function (io) {
 		socket.on('create room', function (data) {
 			if (createRoom(data, socket, io)) {
 				console.log("Created room!");
+
+				// console.log("Created room!", Object.keys(socket.rooms)[0]);
+
 				// console.log("THE IO: ", socket.rooms);
 				// console.log("THE IO: ", io.nsps['/the_game'].connected[socket.id]);
 			}
@@ -57,4 +61,13 @@ module.exports = function (io) {
 			return rooms;
 		}
 	});
+
+	console.log(io.nsps['/the_game'].adapter.rooms)
+	setInterval( function () {
+		for (key in io.nsps['/the_game'].adapter.rooms) {
+			if (key.indexOf('/') === -1 && typeof io.nsps['/the_game'].adapter.rooms[key].updateState !== 'undefined') {
+				io.nsps['/the_game'].adapter.rooms[key].updateState();
+			}
+		}
+	}, 1000/60);
 }
