@@ -36,6 +36,8 @@ module.exports = function (x, y, blockWH, world) {
 		startingXIndex: startingXIndex,
 		startingYIndex: startingYIndex,
 		endingXIndex: endingXIndex,
-		endingYIndex: endingYIndex
+		endingYIndex: endingYIndex,
+		bufferHeight: Math.floor(windowWidth/2),
+		bufferWidth: Math.floor(windowHeight/2)
 	}
 };

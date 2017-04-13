@@ -1,11 +1,12 @@
-var _GS = _GS || {
-    blockWH: 30
-};
+var _GS = _GS || {};
 _GS.playScene = function (canvasObj, contextObj) {
     var characters = [];
 
+    $('.lobby-input').prop('hidden', true);
+    $('.lobby-button').prop('hidden', true);
+
     // SOCKET.emit('get world properties');
-    SOCKET.emit('get rendered division', {blockWH: _GS.blockWH});
+    SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});
 
     // $('.lobby-input').prop('hidden', true);
     // $('.lobby-button').prop('hidden', true);
@@ -32,8 +33,44 @@ _GS.playScene = function (canvasObj, contextObj) {
     //          Author: cnyearsley@gmail.com
     // ====================================================================================================================== //
 
-    this.renderScene = function () {
+    this.renderScene = function (context) {
+        context.save();
         
+        if (typeof _GS.playScene.divisionToRender !== 'undefined') {
+            let divToRender = _GS.playScene.divisionToRender;
+            let worldDiv = divToRender.subdivision;
+            let bufferWidth = divToRender.bufferWidth/10;
+            let bufferHeight = divToRender.bufferHeight/10;
+            // let bufferWidth = 0;
+            // let bufferHeight = 0;
+            let actualX = _GS.playScene.currentPlayer.actualX;
+            let actualY = _GS.playScene.currentPlayer.actualY;
+            // console.log(worldDiv[0][0].blockIndex_x)
+            let startingRenderX = bufferWidth - (actualX - worldDiv[Math.floor(actualX%_GS.playScene.blockWH)][0].blockIndex_x * _GS.playScene.blockWH);
+            let startingRenderY = bufferHeight - (actualY - worldDiv[Math.floor(actualY%_GS.playScene.blockWH)][0].blockIndex_y * _GS.playScene.blockWH);
+            // console.log("World div: ", startingRenderY);
+
+            for (let ii = 0; ii < worldDiv.length; ii += 1) {
+                for (let jj = 0; jj < worldDiv[0].length; jj += 1) {
+                    // console.log("worldDiv[jj][ii].blockType: ", worldDiv[ii][jj].blockType);
+                    if (worldDiv[ii][jj].blockType !== 'empty' && _GS.playScene.images[worldDiv[ii][jj].blockType].isReady_p) {
+                        context.drawImage(_GS.playScene.images[worldDiv[ii][jj].blockType], startingRenderX + jj*30, startingRenderY + ii*30, 30, 30);
+                    }
+                }
+            }
+
+            context.beginPath();
+            context.moveTo(0,0);
+            context.lineTo(700,350);
+            context.stroke();
+        }
+        // let startingRenderY = ;
+
+        // if (_GS.playScene.images.grass.isReady_p) {
+        //     context.drawImage(_GS.playScene.images.grass, 100, 100, 30, 30);
+        // }
+
+        context.restore();
     };
     this.updateScene = function () {
     	// console.log("UPDATE PLAY SCENE!");
@@ -43,31 +80,40 @@ _GS.playScene = function (canvasObj, contextObj) {
     };
 };
 
+_GS.playScene.blockWH = 30;
+
+_GS.playScene.images = {
+    grass: createImage('./../resources/world-tiles/Grass.PNG'),
+    dirt: createImage('./../resources/world-tiles/Dirt.PNG'),
+    stone: createImage('./../resources/world-tiles/Stone.PNG')
+}
+
 // This will be a 2D array retrieved from the server.
-_GS.playScene.divisionToRender = [];
+// _GS.playScene.divisionToRender = {};
 
 // All players should have a socket id and an x/y position.
 
 // This will be an array of objects (where each object represents a player).
-_GS.players = [];
+_GS.playScene.players = [];
 
 // An object that represents the current player.
-_GS.currentPlayer = {};
+_GS.playScene.currentPlayer = {};
 
 // An object that stores block width/height and the buffer width/height
-_GS.worldProperties = {};
+_GS.playScene.worldProperties = {};
 
 // Declare socket listeners.
 SOCKET.on('update players', function (msg) {
 
     // get the current player.
     for (key in msg.players) {
-        if (+msg.players[key].socket_id === +SOCKET.id) {
-            _GS.currentPlayer = msg.players[key];
+        // console.log("_GS.playScene.currentPlayer", msg.players[key].socket_id, SOCKET.id)
+        if (msg.players[key].socket_id === SOCKET.id) {
+            _GS.playScene.currentPlayer = msg.players[key];
         }
     }
     _GS.players = msg.players;
-    console.log("PLAYERS: ", _GS.players[0].x);    
+    // console.log("PLAYERS: ", _GS.players[0]);    
 });
 
 SOCKET.on('update rendered division', function (msg) {
@@ -77,5 +123,14 @@ SOCKET.on('update rendered division', function (msg) {
 
 SOCKET.on('update world properties', function (msg) {
     _GS.worldProperties = msg.worldProperties;
-    console.log("NEW world props: ", _GS.worldProperties);
+    console.log("NEW world props: ", _GS.playScene.worldProperties);
 });
+
+function createImage (path) {
+    var img = new Image();
+    img.src = path;
+    img.onload = function () {
+        img.isReady_p = true;
+    };
+    return img;
+}
