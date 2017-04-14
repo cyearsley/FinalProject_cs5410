@@ -22,11 +22,21 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
 		contextObj.context_game.fillStyle = '#000';
 		contextObj.context_game.fillRect(joinWindowStart.x, joinWindowStart.y, windowWidth, windowHeight);
 
+		contextObj.context_game.font = "35px Verdana";
+		contextObj.context_game.fillStyle = '#3399ff';
+		contextObj.context_game.fillText(".-=> Worlds <=-.", joinWindowStart.x + 35/2, joinWindowStart.y + 35);
 		contextObj.context_game.font = "30px Verdana";
 		contextObj.context_game.fillStyle = 'white';
 
+		let temp = _GS.lobbyScene.rooms[0];
+		let index = _GS.lobbyScene.rooms.indexOf('lobby');
+		_GS.lobbyScene.rooms[0] = 'lobby';
+		_GS.lobbyScene.rooms[index] = temp;
+
 		for (let ii = 0; ii < _GS.lobbyScene.rooms.length; ii += 1) {
-            contextObj.context_game.fillText(_GS.lobbyScene.rooms[ii], joinWindowStart.x + 35/2, joinWindowStart.y + 35 + ii*35);
+			if (_GS.lobbyScene.rooms[ii] !== 'lobby') {
+            	contextObj.context_game.fillText(_GS.lobbyScene.rooms[ii], joinWindowStart.x + 35/2, joinWindowStart.y + 50 + ii*35);
+			}
 		}
 		
 		// contextObj.context_game.strokeStyle = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
