@@ -111,8 +111,8 @@ canvas {
 
 /* Add animation: Take 0.5 seconds to fade in and out the toast.
 However, delay the fade out process for 2.5 seconds */
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+    animation: fadein 0.5s, fadeout 0.5s 4.5s;
 }
 
 /* Animations to fade the toast in and out */

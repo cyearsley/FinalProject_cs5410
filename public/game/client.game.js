@@ -29,7 +29,9 @@ SOCKET.on('player (dis)connect', function (msg) {
     $toast.html('Player: <b>' + msg.playerName + '</b><br/ >has ' + msg.status + ' the server!');
     $toast = $toast[0];
     $toast.className = "show";
-    setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+    setTimeout( function () { 
+    	toast.className = toast.className.replace("show", ""); 
+    }, 5000);
 });
 
 var GameLoop = function () {
