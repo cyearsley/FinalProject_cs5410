@@ -31,7 +31,7 @@ module.exports = function (data, socket, io) {
 				socket.actualX -= 1;
 				socket.actualY += 1;
 				socket.emit('update players', msg);
-				socket.broadcast.emit('update players', msg);
+				socket.to(data.rname).emit('update players', msg);
 			};
 
 			let newWorld = io.nsps['/the_game'].adapter.rooms[data.rname].world;
