@@ -67,7 +67,7 @@ var MasterScene = function () {
             for (key in scenes) {
                 if (scenes[key] && key != 'currentScene') {
                     if (key === scenes.currentScene) {
-                        scenes[key].renderScene(contextObj.context_game);
+                        scenes[key].renderScene(contextObj.context_game, canvasObj.canvas_game.width, canvasObj.canvas_game.height);
                     }
                 }
             }

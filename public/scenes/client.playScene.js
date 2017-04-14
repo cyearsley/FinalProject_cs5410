@@ -31,33 +31,42 @@ _GS.playScene = function (canvasObj, contextObj) {
     //      R_cx,R_cy = the render x,y starting coordinates.
     //      B_w,B_h = the width/height of the buffer between the render x,y start position and the canvas x,y start position.
     //      P_x,P_y = the players actual x,y positions.
+    //      r_xe,r_xs = the subdivisions actual ending x-coord, and starting y-coord.
     //      W_[][] = the subdivision of the entire world to be rendered.
     //
     //          Author: cnyearsley@gmail.com
     // ====================================================================================================================== //
 
-    this.renderScene = function (context) {
+    this.renderScene = function (context, canvasWidth, canvasHeight) {
         context.save();
         
         if (typeof _GS.playScene.divisionToRender !== 'undefined') {
+
+            let blockWH = _GS.playScene.blockWH;
             let divToRender = _GS.playScene.divisionToRender;
             let worldDiv = divToRender.subdivision;
-            let bufferWidth = divToRender.bufferWidth/10;
-            let bufferHeight = divToRender.bufferHeight/10;
-            // let bufferWidth = 0;
-            // let bufferHeight = 0;
-            let actualX = _GS.playScene.currentPlayer.actualX;
-            let actualY = _GS.playScene.currentPlayer.actualY;
-            // console.log(worldDiv[0][0].blockIndex_x)
-            let startingRenderX = bufferWidth - (actualX - worldDiv[Math.floor(actualX%_GS.playScene.blockWH)][0].blockIndex_x * _GS.playScene.blockWH);
-            let startingRenderY = bufferHeight - (actualY - worldDiv[Math.floor(actualY%_GS.playScene.blockWH)][0].blockIndex_y * _GS.playScene.blockWH);
-            // console.log("World div: ", startingRenderY);
+            let renderXStart = worldDiv[0][0].blockIndex_x * blockWH;
+            let renderXEnd = worldDiv[0][worldDiv[0].length -1].blockIndex_x * blockWH;
+
+            let B_wx = Math.floor((renderXEnd - renderXStart - canvasWidth)/2);
+            let Dx = Math.floor(worldDiv[0].length/2);
+            let Ax = (_GS.playScene.currentPlayer.actualX - worldDiv[0][Dx].blockIndex_x * blockWH);
+
+            let R_cx = 0 - B_wx - Ax;
+
+            let renderYStart = worldDiv[0][0].blockIndex_y * blockWH;
+            let renderYEnd = worldDiv[worldDiv.length - 1][0].blockIndex_y * blockWH;
+
+            let B_wy = Math.floor((renderYEnd - renderYStart - canvasHeight)/2);
+            let Dy = Math.floor(worldDiv.length/2);
+            let Ay = (_GS.playScene.currentPlayer.actualY - worldDiv[Dy][0].blockIndex_y * blockWH);
+
+            let R_cy = 0 - B_wy - Ay;
 
             for (let ii = 0; ii < worldDiv.length; ii += 1) {
                 for (let jj = 0; jj < worldDiv[0].length; jj += 1) {
-                    // console.log("worldDiv[jj][ii].blockType: ", worldDiv[ii][jj].blockType);
                     if (worldDiv[ii][jj].blockType !== 'empty' && _GS.playScene.images[worldDiv[ii][jj].blockType].isReady_p) {
-                        context.drawImage(_GS.playScene.images[worldDiv[ii][jj].blockType], startingRenderX + jj*30, startingRenderY + ii*30, 30, 30);
+                        context.drawImage(_GS.playScene.images[worldDiv[ii][jj].blockType], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
                     }
                 }
             }
@@ -67,11 +76,6 @@ _GS.playScene = function (canvasObj, contextObj) {
             context.lineTo(700,350);
             context.stroke();
         }
-        // let startingRenderY = ;
-
-        // if (_GS.playScene.images.grass.isReady_p) {
-        //     context.drawImage(_GS.playScene.images.grass, 100, 100, 30, 30);
-        // }
 
         context.restore();
     };

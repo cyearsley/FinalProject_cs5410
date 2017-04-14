@@ -29,6 +29,7 @@ module.exports = function (data, socket, io) {
 
 				msg.players = getAllPlayers(socket, io, data.rname);
 				socket.actualX += 1;
+				socket.actualY += 1;
 				socket.emit('update players', msg);
 				socket.broadcast.emit('update players', msg);
 			};
