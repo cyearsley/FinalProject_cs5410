@@ -8,6 +8,7 @@ var getMyRoom = require('./../util/server.getMyRoom.js');
 module.exports = function (io) {
 	io.of('/the_game').on('connection', function (socket) {
 		console.log("User " + socket.id + " connected!");
+		socket.broadcast.emit('player (dis)connect', {playerName: socket.id, status: '<b style="color: green;">connected</b> to'});
 
 		// Join an existing session
 		socket.on('join room', function (data) {
@@ -56,6 +57,7 @@ module.exports = function (io) {
 		// If a user disconnects from the room.
 		socket.on('disconnect', function () {
 			console.log("User " + socket.id + " DISCONNECTED!");
+			socket.broadcast.emit('player (dis)connect', {playerName: socket.id, status: '<b style="color: red;">disconnected</b> from'});
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
 		});
 

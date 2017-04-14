@@ -24,6 +24,14 @@ SOCKET.on('give feedback', function (data) {
 	}
 });
 
+SOCKET.on('player (dis)connect', function (msg) {
+    var $toast = $('#toast');
+    $toast.html('Player: <b>' + msg.playerName + '</b><br/ >has ' + msg.status + ' the server!');
+    $toast = $toast[0];
+    $toast.className = "show";
+    setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+});
+
 var GameLoop = function () {
 
     var sceneControl = new MasterScene();
