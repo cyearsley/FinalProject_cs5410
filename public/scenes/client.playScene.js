@@ -71,6 +71,16 @@ _GS.playScene = function (canvasObj, contextObj) {
                 }
             }
 
+            context.drawImage(_GS.playScene.images.tnt, canvasWidth/2 - blockWH/2, canvasHeight/2, blockWH, blockWH*2);
+
+            // render other players.
+            let players = _GS.playScene.players;
+            for (let ii = 0; ii < players.length; ii += 1) {
+                if (players[ii].socket_id !== SOCKET.id) {
+                    context.drawImage(_GS.playScene.images.tnt, R_cx + players[ii].actualX - renderXStart, R_cy + players[ii].actualY - renderYStart, blockWH, blockWH*2);
+                }
+            }
+
             context.beginPath();
             context.moveTo(0,0);
             context.lineTo(700,350);
@@ -92,7 +102,8 @@ _GS.playScene.blockWH = 30;
 _GS.playScene.images = {
     grass: createImage('./../resources/world-tiles/Grass.PNG'),
     dirt: createImage('./../resources/world-tiles/Dirt.PNG'),
-    stone: createImage('./../resources/world-tiles/Stone.PNG')
+    stone: createImage('./../resources/world-tiles/Stone.PNG'),
+    tnt: createImage('./../resources/world-tiles/Tnt.PNG')
 }
 
 // This will be a 2D array retrieved from the server.
@@ -119,7 +130,7 @@ SOCKET.on('update players', function (msg) {
             _GS.playScene.currentPlayer = msg.players[key];
         }
     }
-    _GS.players = msg.players;
+    _GS.playScene.players = msg.players;
     // console.log("PLAYERS: ", _GS.players[0]);    
 });
 
