@@ -20,15 +20,18 @@ _GS.playScene = function (canvasObj, contextObj) {
     // R E N D E R - S C E N E
     //
     //  The formula to render, relative to the players position is:
-    //      R_cx = -B_w - (P_x - W_[floor(P_x/b_w)][0].x)
-    //                      AND
-    //      R_cy = -B_h - (P_y - W_[floor(P_y/b_h)][0].y)
+    //      R_cx = -Math.floor(B_w) - A
+    //      B_w = ((r_xe - r_xs)-canvas.width)/2
+    //      A = (P_x - W[0][Math.floor(D)].actualX)
+    //      D = ((r_xe - r_xs)/2)
+    //
+    //      R_cx = -Math.floor(((r_xe - r_xs)-canvas.width)/2) - (P_x - W[0][Math.floor(((r_xe - r_xs)/2))].actualX)
+
     //  Where:
     //      R_cx,R_cy = the render x,y starting coordinates.
     //      B_w,B_h = the width/height of the buffer between the render x,y start position and the canvas x,y start position.
     //      P_x,P_y = the players actual x,y positions.
     //      W_[][] = the subdivision of the entire world to be rendered.
-    //      b_w,b_h = the width and height of a block.
     //
     //          Author: cnyearsley@gmail.com
     // ====================================================================================================================== //
