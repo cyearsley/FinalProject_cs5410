@@ -1,6 +1,7 @@
 var _GS = _GS || {};
 _GS.playScene = function (canvasObj, contextObj) {
     var characters = [];
+    var frameCount = 0;
 
     $('.lobby-input').prop('hidden', true);
     $('.lobby-button').prop('hidden', true);
@@ -91,6 +92,12 @@ _GS.playScene = function (canvasObj, contextObj) {
     };
     this.updateScene = function () {
     	// console.log("UPDATE PLAY SCENE!");
+        frameCount += 1;
+        if (frameCount >= 1000) {
+            frameCount = 0;
+            SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});
+            console.log("Get rendered div!");
+        }
     };
     this.handleInputScene = function () {
 
@@ -103,7 +110,8 @@ _GS.playScene.images = {
     grass: createImage('./../resources/world-tiles/Grass.PNG'),
     dirt: createImage('./../resources/world-tiles/Dirt.PNG'),
     stone: createImage('./../resources/world-tiles/Stone.PNG'),
-    tnt: createImage('./../resources/world-tiles/Tnt.PNG')
+    tnt: createImage('./../resources/world-tiles/Tnt.PNG'),
+    coal: createImage('./../resources/world-tiles/Coal.PNG')
 }
 
 // This will be a 2D array retrieved from the server.

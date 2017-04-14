@@ -28,8 +28,10 @@ module.exports = function (data, socket, io) {
 				let msg = {players: []};
 
 				msg.players = getAllPlayers(socket, io, data.rname);
-				// socket.actualX -= 1;
-				// socket.actualY += 1;
+				socket.actualX += 1;
+				socket.positionX = Math.floor(socket.actualX/30)
+				socket.actualY += 1;
+				socket.positionY = Math.floor(socket.actualY/30)
 				socket.emit('update players', msg);
 				socket.to(data.rname).emit('update players', msg);
 			};

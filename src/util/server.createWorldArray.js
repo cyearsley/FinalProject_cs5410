@@ -31,8 +31,16 @@ module.exports = function (size) {
 				});
 			}
 			else {
+				let blockType = 'stone';
+				let randomVal = Math.floor(Math.random() * (6 - 1)) + 1;
+				if (randomVal <= 1) {
+					blockType = 'coal';
+				}
+				else if (randomVal <= 3) {
+					blockType = 'dirt';
+				}
 				worldArr[ii].push({
-					blockType: 'stone',
+					blockType: blockType,
 					blockIndex_y: ii,
 					blockIndex_x: jj,
 					hp: 20
