@@ -45,19 +45,19 @@ module.exports = function (data, socket, io) {
 				for (let ii = 0; ii < players.length; ii += 1) {
 					if (players[ii].move_left === true) {
 						io.nsps['/the_game'].sockets[players[ii].socket].actualX -= movingIncr;
-						io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(socket.actualX/30);
+						io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualX/30);
 					}
 					if (players[ii].move_right === true) {
 						io.nsps['/the_game'].sockets[players[ii].socket].actualX += movingIncr;
-						io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(socket.actualX/30);
+						io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualX/30);
 					}
 					if (players[ii].move_up === true) {
 						io.nsps['/the_game'].sockets[players[ii].socket].actualY -= movingIncr;
-						io.nsps['/the_game'].sockets[players[ii].socket].positionY = Math.floor(socket.actualY/30);
+						io.nsps['/the_game'].sockets[players[ii].socket].positionY = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualY/30);
 					}
 					if (players[ii].move_down === true) {
 						io.nsps['/the_game'].sockets[players[ii].socket].actualY += movingIncr;
-						io.nsps['/the_game'].sockets[players[ii].socket].positionY = Math.floor(socket.actualY/30);
+						io.nsps['/the_game'].sockets[players[ii].socket].positionY = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualY/30);
 					}
 
 				// notify current, and other players of changes.
