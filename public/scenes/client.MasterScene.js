@@ -59,6 +59,10 @@ var MasterScene = function () {
         scenes[data.newScene] = new _GS[data.newScene + 'Scene'](canvasObj, contextObj);
     });
 
+    this.getCurrentScene = function () {
+        return scenes.currentScene;
+    };
+
     this.render = function () {
         // Render the scene, and all the characters in it.
         if (scenes.currentScene !== null) {

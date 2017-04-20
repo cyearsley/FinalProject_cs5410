@@ -93,7 +93,7 @@ _GS.playScene = function (canvasObj, contextObj) {
     this.updateScene = function () {
     	// console.log("UPDATE PLAY SCENE!");
         frameCount += 1;
-        if (frameCount >= 1000) {
+        if (frameCount >= 750) {
             frameCount = 0;
             SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});
             console.log("Get rendered div!");

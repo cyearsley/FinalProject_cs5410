@@ -1,3 +1,67 @@
 This project is for the CS5410 final project at Utah State University.
-
 Author: cnyearsley@gmail.com
+
+HOW TO START GAME:
+Required: Node.js - v6.9.4, NPM - 3.10.10
+Execute the following commands in the root of the game.
+	i) npm install
+	ii) npm start
+	iii) in the browser, go to the url: http://localhost:8000/play
+
+HOW TO USE THE GAME:
+	When you go to http://localhost:8000/play, you will automatically be in the lobby
+	scene.  To connect other people to the lobby, in different tabs/windows go to the
+	url: http://localhost:8000/play.
+	From here, clients can do one of two things:
+		1) Create a game
+		2) Join a game - when games have been created, they will be visible to other
+		clients in the lobby.
+
+	When you create a game, only the player who created the world will be moving - this
+	illustrates rendering, and if other people join the game in time rendering other
+	players.
+
+	NOTE: players (at this point), are represented by TNT blocks.
+
+Grading criteria that applies to my game (discluding the required criteria):
+1) Multiplayer (75 points)
+2*) I will try to implement other things, but as Multiplater alone is worth 75 points,
+	I figured I was just include this.
+
+Included in this milestone:
+1) Multiplayer - all required criteria for multiplayer is INCLUDED in this milestone,
+the criteria are (and how they are implemented):
+	i) Game model exists at the server - there are several data structures that determine
+	the status of every component in the game (i.e. the world, the sub division of the
+	world to be rendered relative to the players' position, and any player properties.)
+	Any update to the state of the game is made on the server (NOT the client).
+
+	ii) Pre-game lobby for players to gather, then trasnition to a game - Clients are
+	able to either create or join a game.  When a client creates a game, they are added
+	to the world once the server has "procedurally" generated the world relative to
+	that specific game. As clients create worlds, they are visible to other clients in 
+	the lobby.  When clients join an existing world, players are able to see each other, 
+	and the world around them.
+
+	iii) Gracefully handle players leaving - When a client either connects or 
+	disconnects from the server, a message is sent to ALL other clients indicating that 
+	the player has connected/disconnected.  Also, if a player disconnects from the 
+	server (or leaves the world), that player is automatically removed from the world 
+	and removed from the datastructure on the server containing players
+
+	iv) Not requiring multiple game isntances running at the same time - world isntances 
+	are dynamic, dependent on the worlds players create.  The server is only 
+	instantiated once.
+
+2) Gameplay - partially implemented, as the world in rendered and other players are 
+rendered.
+
+3) The framework for reconfigurable controls is written, it has yet to be implemented 
+yet though.
+
+
+I hope this is satisfactory for the milestone, I have put a great deal of time towards
+this game as it stands.
+
+Best,
+Caleb
