@@ -35,6 +35,8 @@ module.exports = function (data, socket, io) {
 				let playerSockets = thisRoom.sockets;
 				let players = [];
 				let movingIncr = 3;
+				let world = io.nsps['/the_game'].adapter.rooms[data.rname].world.struct;
+
 
 				for (key in playerSockets) {
 					players.push(io.nsps['/the_game'].sockets[key]);
@@ -43,21 +45,60 @@ module.exports = function (data, socket, io) {
 
 				// For each player in a given room, update their position!
 				for (let ii = 0; ii < players.length; ii += 1) {
+					let leftActualX = io.nsps['/the_game'].sockets[players[ii].socket].actualX;
+					let rightActualX = io.nsps['/the_game'].sockets[players[ii].socket].actualX + 30;
+					let topActualY = io.nsps['/the_game'].sockets[players[ii].socket].actualY;
+					let bottomActualY = io.nsps['/the_game'].sockets[players[ii].socket].actualY + 60;
 					if (players[ii].move_left === true) {
-						io.nsps['/the_game'].sockets[players[ii].socket].actualX -= movingIncr;
-						io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualX/30);
+						if (world[Math.floor(topActualY/30)][Math.floor(leftActualX/30)].blockType === 'empty' && world[Math.floor((topActualY + 20)/30) + 1][Math.floor(leftActualX/30)].blockType === 'empty') {
+							if (io.nsps['/the_game'].sockets[players[ii].socket].accLeft <= 10) {
+								io.nsps['/the_game'].sockets[players[ii].socket].accLeft += 0.05;
+							}
+							io.nsps['/the_game'].sockets[players[ii].socket].actualX -= movingIncr + Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].accLeft);
+							io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualX/30);
+						}
+						else {
+							io.nsps['/the_game'].sockets[players[ii].socket].accLeft = 0;
+						}
 					}
+					else {
+						io.nsps['/the_game'].sockets[players[ii].socket].accLeft = 0;
+					}
+
 					if (players[ii].move_right === true) {
-						io.nsps['/the_game'].sockets[players[ii].socket].actualX += movingIncr;
-						io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualX/30);
+						if (world[Math.floor(topActualY/30)][Math.floor(rightActualX/30)].blockType === 'empty' && world[Math.floor((topActualY + 20)/30) + 1][Math.floor(rightActualX/30)].blockType === 'empty') {
+							if (io.nsps['/the_game'].sockets[players[ii].socket].accRight <= 10) {
+								io.nsps['/the_game'].sockets[players[ii].socket].accRight += 0.05;
+							}
+							io.nsps['/the_game'].sockets[players[ii].socket].actualX += movingIncr + Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].accRight);
+							io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualX/30);
+						}
+						else {
+							io.nsps['/the_game'].sockets[players[ii].socket].accRight = 0;
+						}
+					}
+					else {
+						io.nsps['/the_game'].sockets[players[ii].socket].accRight = 0;
 					}
 					if (players[ii].move_up === true) {
 						io.nsps['/the_game'].sockets[players[ii].socket].actualY -= movingIncr;
 						io.nsps['/the_game'].sockets[players[ii].socket].positionY = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualY/30);
 					}
-					if (players[ii].move_down === true) {
-						io.nsps['/the_game'].sockets[players[ii].socket].actualY += movingIncr;
-						io.nsps['/the_game'].sockets[players[ii].socket].positionY = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualY/30);
+
+					if (players[ii].move_down === true && players[ii].move_up !== true) {
+						if (world[Math.floor(bottomActualY/30)][Math.floor((leftActualX+5)/30)].blockType === 'empty' && world[Math.floor(bottomActualY/30)][Math.floor((rightActualX-5)/30)].blockType === 'empty') {
+							if (io.nsps['/the_game'].sockets[players[ii].socket].accDown <= 7) {
+								io.nsps['/the_game'].sockets[players[ii].socket].accDown += 0.2;
+							}
+							io.nsps['/the_game'].sockets[players[ii].socket].actualY += movingIncr + Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].accDown);
+							io.nsps['/the_game'].sockets[players[ii].socket].positionY = Math.floor(io.nsps['/the_game'].sockets[players[ii].socket].actualY/30);
+						}
+						else {
+							io.nsps['/the_game'].sockets[players[ii].socket].accDown = 0;
+						}
+					}
+					else {
+						io.nsps['/the_game'].sockets[players[ii].socket].accDown = 0;
 					}
 
 				// notify current, and other players of changes.

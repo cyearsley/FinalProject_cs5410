@@ -10,9 +10,18 @@ module.exports = function (io) {
 		console.log("User " + socket.id + " connected!");
 		socket.broadcast.emit('player (dis)connect', {playerName: socket.id, status: '<b style="color: green;">connected</b> to'});
 		socket.move_left = false;
+		socket.accLeft = 0;
+
 		socket.move_right = false;
+		socket.accRight = 0;
+
 		socket.move_up = false;
-		socket.move_down = false;
+		socket.accUp = 1;
+
+		socket.move_down = true;
+		socket.accDown = 0;
+
+		socket.moveMax = 3;
 
 		// socket.actionList = [];
 		// socket.updateInterval = setInterval( function () {
@@ -95,7 +104,7 @@ module.exports = function (io) {
 				socket.move_up = false;
 			}
 			if (msg.action === 'move down') {
-				socket.move_down = false;
+				socket.move_down = true;
 			}
 		});
 

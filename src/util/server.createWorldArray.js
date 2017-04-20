@@ -15,16 +15,26 @@ module.exports = function (size) {
 				});
 			}
 			else if (ii < 251) {
+				let randomVal = Math.floor(Math.random() * (6 - 1)) + 1;
+				let blockType = 'grass';
+				if (randomVal <= 2) {
+					blockType = 'empty';
+				}
 				worldArr[ii].push({
-					blockType: 'grass',
+					blockType: blockType,
 					blockIndex_y: ii,
 					blockIndex_x: jj,
 					hp: 10
 				});
 			}
 			else if (ii < 275) {
+				let randomVal = Math.floor(Math.random() * (6 - 1)) + 1;
+				let blockType = 'dirt';
+				if (randomVal <= 2 && worldArr[ii-1][jj].blockType === 'empty') {
+					blockType = 'empty';
+				}
 				worldArr[ii].push({
-					blockType: 'dirt',
+					blockType: blockType,
 					blockIndex_y: ii,
 					blockIndex_x: jj,
 					hp: 10

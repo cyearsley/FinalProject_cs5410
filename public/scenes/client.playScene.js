@@ -81,7 +81,7 @@ _GS.playScene = function (canvasObj, contextObj) {
             }
 
             // draw current player
-            context.drawImage(_GS.playScene.images.tnt, canvasWidth/2 - blockWH/2, canvasHeight/2, blockWH, blockWH*2);
+            context.drawImage(_GS.playScene.images.tnt, canvasWidth/2, canvasHeight/2, blockWH, blockWH*2);
 
             context.beginPath();
             context.moveTo(0,0);
@@ -94,7 +94,7 @@ _GS.playScene = function (canvasObj, contextObj) {
     this.updateScene = function () {
     	// console.log("UPDATE PLAY SCENE!");
         frameCount += 1;
-        if (frameCount >= 100) {
+        if (frameCount >= 50) {
             frameCount = 0;
             SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});
             console.log("Get rendered div!");
