@@ -25,15 +25,47 @@ module.exports = function (data, socket, io) {
 			io.nsps['/the_game'].adapter.rooms[data.rname].world = {struct: createWorldArray(), blockWH: 30};
 
 			io.nsps['/the_game'].adapter.rooms[data.rname].updateState = function () {
-				let msg = {players: []};
+				// socket.actualX += 1;
+				// socket.positionX = Math.floor(socket.actualX/30)
+				// socket.actualY += 1;
+				// socket.positionY = Math.floor(socket.actualY/30)
 
+				// Loop through each socket in the room, and update them if needed...
+				let thisRoom = io.nsps['/the_game'].adapter.rooms[data.rname];
+				let playerSockets = thisRoom.sockets;
+				let players = [];
+				let movingIncr = 3;
+
+				for (key in playerSockets) {
+					players.push(io.nsps['/the_game'].sockets[key]);
+					players[players.length - 1].socket = key;
+				}
+
+				// For each player in a given room, update their position!
+				for (let ii = 0; ii < players.length; ii += 1) {
+					if (players[ii].move_left === true) {
+						io.nsps['/the_game'].sockets[players[ii].socket].actualX -= movingIncr;
+						io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(socket.actualX/30);
+					}
+					if (players[ii].move_right === true) {
+						io.nsps['/the_game'].sockets[players[ii].socket].actualX += movingIncr;
+						io.nsps['/the_game'].sockets[players[ii].socket].positionX = Math.floor(socket.actualX/30);
+					}
+					if (players[ii].move_up === true) {
+						io.nsps['/the_game'].sockets[players[ii].socket].actualY -= movingIncr;
+						io.nsps['/the_game'].sockets[players[ii].socket].positionY = Math.floor(socket.actualY/30);
+					}
+					if (players[ii].move_down === true) {
+						io.nsps['/the_game'].sockets[players[ii].socket].actualY += movingIncr;
+						io.nsps['/the_game'].sockets[players[ii].socket].positionY = Math.floor(socket.actualY/30);
+					}
+
+				// notify current, and other players of changes.
+				let msg = {players: []};
 				msg.players = getAllPlayers(socket, io, data.rname);
-				socket.actualX += 1;
-				socket.positionX = Math.floor(socket.actualX/30)
-				socket.actualY += 1;
-				socket.positionY = Math.floor(socket.actualY/30)
 				socket.emit('update players', msg);
 				socket.to(data.rname).emit('update players', msg);
+				}
 			};
 
 			let newWorld = io.nsps['/the_game'].adapter.rooms[data.rname].world;

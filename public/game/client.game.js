@@ -42,6 +42,10 @@ var GameLoop = function () {
         window.requestAnimationFrame(_gameLoop);
     };
 
+    this.getCurrentScene = function () {
+        return sceneControl.getCurrentScene();
+    };
+
     function _gameLoop (timestamp) {
         _update(timestamp);
         // sceneControl.handleInput();

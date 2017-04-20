@@ -9,10 +9,30 @@ module.exports = function (io) {
 	io.of('/the_game').on('connection', function (socket) {
 		console.log("User " + socket.id + " connected!");
 		socket.broadcast.emit('player (dis)connect', {playerName: socket.id, status: '<b style="color: green;">connected</b> to'});
+		socket.move_left = false;
+		socket.move_right = false;
+		socket.move_up = false;
+		socket.move_down = false;
+
+		// socket.actionList = [];
+		// socket.updateInterval = setInterval( function () {
+		// 	console.log("INTERVAL");
+		// 	if (socket.actionList.length >= 1) {
+
+		// 	}
+		// },1000);
 
 		// Join an existing session
 		socket.on('join room', function (data) {
 			if (joinRoom(data, socket, io)) {
+				let playerSockets = io.nsps['/the_game'].adapter.rooms[data.rname].sockets;
+				let players = [];
+
+				for (key in playerSockets) {
+					players.push(io.nsps['/the_game'].sockets[key]);
+				}
+
+				console.log("PLAYERS: ", players);
 				console.log("Joined room!");
 				// console.log("THE IO: ", socket.rooms);
 				// console.log("THE IO: ", io.nsps['/the_game'].connected[socket.id]);
@@ -49,14 +69,46 @@ module.exports = function (io) {
 			});
 		});
 
+		socket.on('keydown', function (msg) {
+			if (msg.action === 'move left') {
+				socket.move_left = true;
+			}
+			if (msg.action === 'move right') {
+				socket.move_right = true;
+			}
+			if (msg.action === 'move up') {
+				socket.move_up = true;
+			}
+			if (msg.action === 'move down') {
+				socket.move_down = true;
+			}
+		});
+
+		socket.on('keyup', function (msg) {
+			if (msg.action === 'move left') {
+				socket.move_left = false;
+			}
+			if (msg.action === 'move right') {
+				socket.move_right = false;
+			}
+			if (msg.action === 'move up') {
+				socket.move_up = false;
+			}
+			if (msg.action === 'move down') {
+				socket.move_down = false;
+			}
+		});
+
 		socket.on('get rendered division', function (msg) {
 			// console.log("GET MY ROOM: ", getRenderedDivision(socket.positionX, socket.positionY, +msg.blockWH, getMyRoom(socket, io).world.struct))
+			console.log("getting rendered division for: ", socket.id, socket.positionX, socket.positionY);
 			socket.emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
 		});
 
 		// If a user disconnects from the room.
 		socket.on('disconnect', function () {
 			console.log("User " + socket.id + " DISCONNECTED!");
+			clearInterval(socket.updateInterval);
 			socket.broadcast.emit('player (dis)connect', {playerName: socket.id, status: '<b style="color: red;">disconnected</b> from'});
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
 		});
@@ -82,11 +134,10 @@ module.exports = function (io) {
 		}
 	});
 
-	console.log(io.nsps['/the_game'].adapter.rooms)
 	setInterval( function () {
 		for (key in io.nsps['/the_game'].adapter.rooms) {
 			if (key.indexOf('/') === -1 && typeof io.nsps['/the_game'].adapter.rooms[key].updateState !== 'undefined') {
-				io.nsps['/the_game'].adapter.rooms[key].updateState();
+				io.nsps['/the_game'].adapter.rooms[key].updateState(key);
 			}
 		}
 	}, 1000/60);
