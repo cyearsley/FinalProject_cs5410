@@ -108,9 +108,23 @@ module.exports = function (io) {
 			}
 		});
 
+		socket.on('mouse up', function (msg) {
+			// user is trying to destroy a block...
+			if (msg.button === 'left') {
+				let xIndex = Math.floor((msg.canvasX - Math.floor(msg.canvasWidth/2) + socket.actualX)/30);
+				let yIndex = Math.floor((msg.canvasY - Math.floor(msg.canvasHeight/2) + socket.actualY)/30);
+				let roomName = Object.keys(socket.rooms)[0];
+				io.nsps['/the_game'].adapter.rooms[roomName].world.struct[yIndex][xIndex].blockType = 'empty';
+				socket.emit('notify world change'); 
+				socket.to(roomName).emit('notify world change');
+				// socket.emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
+				// socket.to(roomName).emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
+			}
+		});
+
 		socket.on('get rendered division', function (msg) {
 			// console.log("GET MY ROOM: ", getRenderedDivision(socket.positionX, socket.positionY, +msg.blockWH, getMyRoom(socket, io).world.struct))
-			console.log("getting rendered division for: ", socket.id, socket.positionX, socket.positionY);
+			// console.log("getting rendered division for: ", socket.id, socket.positionX, socket.positionY);
 			socket.emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
 		});
 

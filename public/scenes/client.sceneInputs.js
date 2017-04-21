@@ -1,7 +1,7 @@
 console.log("scene inputs");
 
 window.addEventListener('keydown', function (evt) {
-	console.log("KEY DOWN: ", evt.key);
+	// console.log("KEY DOWN: ", evt.key);
 	if (typeof sceneInputs[evt.key] !== 'undefined') {
 		if (sceneInputs[evt.key].pressed === false) {
 			if (GAMELOOP.getCurrentScene() === 'play') {
@@ -13,7 +13,7 @@ window.addEventListener('keydown', function (evt) {
 });
 
 window.addEventListener('keyup', function (evt) {
-	console.log("KEY UP: ", evt.key);
+	// console.log("KEY UP: ", evt.key);
 	if (typeof sceneInputs[evt.key] !== 'undefined') {
 		if (sceneInputs[evt.key].pressed === true) {
 			if (GAMELOOP.getCurrentScene() === 'play') {
@@ -22,6 +22,34 @@ window.addEventListener('keyup', function (evt) {
 		}
 		sceneInputs[evt.key].pressed = false;
 	}
+});
+
+$(function () {
+	$('#game-canvas')[0].addEventListener('mouseup', function (evt) {
+		if (GAMELOOP.getCurrentScene() === 'play') {
+			let event = null;
+			if (evt.button === 0) {
+				event = 'left';
+			}
+			else if (evt.button === 1) {
+				event = 'middle';
+			}
+			else if (evt.button === 2) {
+				event = 'right';
+			}
+			let msg = {
+				canvasX: evt.layerX,
+				canvasY: evt.layerY,
+				button: event,
+				type: evt.type,
+				canvasWidth: this.width,
+				canvasHeight: this.height
+			};
+			if (event !== null) {
+				SOCKET.emit('mouse up', msg);
+			}
+		}
+	});
 });
 
 var sceneInputs = {

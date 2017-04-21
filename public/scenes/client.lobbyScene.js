@@ -52,11 +52,11 @@ _GS.lobbyScene.rooms = [];
 
 // Declare socket listeners.
 SOCKET.on('show rooms', function (data) {
-	console.log("showing rooms", data)
+	// console.log("showing rooms", data)
 	if (typeof _GS.lobbyScene !== 'undefined' && _GS.lobbyScene.sceneActive_p === true) {
 		_GS.lobbyScene.rooms = data.rooms;
 		for (let ii = 0; ii < data.rooms.length; ii += 1) {
-			console.log("ROOM: ", data.rooms[ii]);
+			// console.log("ROOM: ", data.rooms[ii]);
 		}
 	}
 });

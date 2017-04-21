@@ -84,7 +84,7 @@ canvas {
 	height: 700px;
 	margin-left: -20px;
 	margin-top: -20px;
-	border: 10px solid black;
+	/*border: 10px solid black;*/
 }
 
 /*The following styling (1) is pulled from: https://www.w3schools.com/howto/howto_js_snackbar.asp*/

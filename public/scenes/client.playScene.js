@@ -76,7 +76,7 @@ _GS.playScene = function (canvasObj, contextObj) {
             let players = _GS.playScene.players;
             for (let ii = 0; ii < players.length; ii += 1) {
                 if (players[ii].socket_id !== SOCKET.id) {
-                    context.drawImage(_GS.playScene.images.wood, R_cx + players[ii].actualX - renderXStart - blockWH/2, R_cy + players[ii].actualY - renderYStart, blockWH, blockWH*2);
+                    context.drawImage(_GS.playScene.images.wood, R_cx + players[ii].actualX - renderXStart, R_cy + players[ii].actualY - renderYStart, blockWH, blockWH*2);
                 }
             }
 
@@ -145,13 +145,17 @@ SOCKET.on('update players', function (msg) {
 });
 
 SOCKET.on('update rendered division', function (msg) {
-    console.log("NEW rendered division: ", msg);
+    // console.log("NEW rendered division: ", msg);
     _GS.playScene.divisionToRender = msg;
 });
 
 SOCKET.on('update world properties', function (msg) {
     _GS.worldProperties = msg.worldProperties;
     console.log("NEW world props: ", _GS.playScene.worldProperties);
+});
+
+SOCKET.on('notify world change', function () {
+    SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});
 });
 
 function createImage (path) {
