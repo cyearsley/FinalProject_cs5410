@@ -24,7 +24,16 @@ window.addEventListener('keyup', function (evt) {
 	}
 });
 
+
 $(function () {
+	$('#game-canvas')[0].addEventListener('mousemove', function (evt) {
+		sceneInputs.mousePosition.x = evt.layerX;
+		sceneInputs.mousePosition.y = evt.layerY;
+	});
+	$('#game-canvas').on('click', function (evt) {
+		console.log("The click event is: ", evt);
+		sceneInputs.hasClicked_p = true;
+	});
 	$('#game-canvas')[0].addEventListener('mouseup', function (evt) {
 		if (GAMELOOP.getCurrentScene() === 'play') {
 			let event = null;
@@ -74,6 +83,10 @@ var sceneInputs = {
 		'pressed': false,
 		// 'updated': true,
 		'action': 'move up'
-	}
-
+	},
+	mousePosition: {
+		x: null,
+		y: null
+	},
+	hasClicked_p: false
 };

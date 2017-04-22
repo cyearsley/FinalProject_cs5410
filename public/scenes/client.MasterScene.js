@@ -16,6 +16,11 @@ var MasterScene = function () {
         context_background: canvasObj.canvas_background.getContext('2d'),
         context_game: canvasObj.canvas_game.getContext('2d')
     };
+
+    // contextObj.context_game.shadowColor = "black";
+    // contextObj.context_game.shadowOffsetX = 0; 
+    // contextObj.context_game.shadowOffsetY = 0; 
+    // contextObj.context_game.shadowBlur = 5;
     // console.log("canvas width: ", canvas.width);
     CanvasRenderingContext2D.prototype.clear = function() {
         this.save();

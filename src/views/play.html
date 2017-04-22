@@ -14,6 +14,8 @@
 	<script src="scenes/client.lobbyScene.js"></script>
 	<script src="scenes/client.playScene.js"></script>
 	<script src="characters/sound/soundPool.js"></script>
+	<script src="characters/client.textbuttonCharacter.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Boogaloo" rel="stylesheet">
 	<style>
 		canvas {
 			position: absolute;
@@ -64,6 +66,7 @@
 	<script>
 	var GAMELOOP = undefined;
 	var SOUNDBOARD = new SoundPool();
+	SOUNDBOARD.playSound({type: 'GameMusic', volume: 0.5, loop: true});
 		$(function () {
 			GAMELOOP = new GameLoop();
 			GAMELOOP.init();

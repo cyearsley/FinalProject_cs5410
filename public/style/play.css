@@ -4,12 +4,13 @@
 }
 
 body {
-	background-image: url('../resources/background.jpg');
-	background-repeat: no-repeat;
-	background-size: cover;
+	/*background-image: url('../resources/background.jpg');*/
+	background-image: url('../resources/world-tiles/Water.PNG');
+	background-repeat: repeat;
+	/*background-size: cover;*/
 }
 
-#game-container {
+#game-container{
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -23,6 +24,9 @@ body {
 
 #background-canvas {
 	background-image: url('../resources/cloud-background.png');
+	/*border-left: 10px solid black;*/
+	/*border-right: 10px solid black;*/
+	/*border-top: 5px solid black;*/
 }
 
 .lobby-input {

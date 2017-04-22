@@ -1,5 +1,6 @@
 // Create a connection to /the_game web socket
 SOCKET = io.connect('/the_game');
+SOCKET.emit('request scene change', {newScene: 'main'});
 
 function createImage (path) {
     var img = new Image();
