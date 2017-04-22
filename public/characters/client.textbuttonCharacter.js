@@ -19,18 +19,33 @@ var tbCharacter = function (data) {
 	data.shadow = data.shadow || false;
 	data.canvasWidth = 1400;
 	data.textWidth = false;
+	data.sound = data.sound || 'forward';
+	data.onclick = data.onclick || function () {};
 
-	let hardWidth = data.text.length * 40;
+	let status = {
+		hasHovered: false
+	};
 
 	this.update = function () {
-		if (mouseHovering_p()) {
+		if (this.mouseHovering_p()) {
 			if (data.scale <= data.scaleMax) {
 				data.scale += data.scaleSpeed;
+				if (status.hasHovered === false) {
+					status.hasHovered = true;
+					SOUNDBOARD.playSound({type: 'hover', volume: 0.25, loop: false});
+				}
+			}
+			if (sceneInputs.hasClicked_p === true && sceneInputs.hasReleasedClick_p === false) {
+				console.log("SELECTED OPTION!");
+				sceneInputs.hasReleasedClick_p = true;
+				SOUNDBOARD.playSound({type: data.sound, volume: 1.0, loop: false});
+				data.onclick();
 			}
 		}
 		else {
 			if (data.scale >= data.scaleMin) {
 				data.scale -= data.scaleSpeed;
+				status.hasHovered = false;
 			}
 		}
 	};
@@ -43,7 +58,7 @@ var tbCharacter = function (data) {
 		context.font = fontScale*data.scale + 'px Boogaloo';
 		data.textWidth = context.measureText(data.text).width;
 
-		if (!mouseHovering_p()) {
+		if (!this.mouseHovering_p()) {
     		context.fillStyle = '#878787';
 		}
 		else {
@@ -82,7 +97,7 @@ var tbCharacter = function (data) {
 		context.restore();
 	}
 
-	function mouseHovering_p () {
+	this.mouseHovering_p = function () {
 		let mouse = sceneInputs.mousePosition;
 		let xPos = null;
 		if (data.centerCanvasX) {

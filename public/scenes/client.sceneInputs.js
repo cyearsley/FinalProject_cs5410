@@ -30,11 +30,15 @@ $(function () {
 		sceneInputs.mousePosition.x = evt.layerX;
 		sceneInputs.mousePosition.y = evt.layerY;
 	});
-	$('#game-canvas').on('click', function (evt) {
-		console.log("The click event is: ", evt);
-		sceneInputs.hasClicked_p = true;
+	$('#game-canvas')[0].addEventListener('mousedown', function (evt) {
+		if (sceneInputs.hasClicked_p === false && sceneInputs.hasReleasedClick_p === true) {
+			sceneInputs.hasClicked_p = true;
+			sceneInputs.hasReleasedClick_p = false;
+		}
 	});
 	$('#game-canvas')[0].addEventListener('mouseup', function (evt) {
+		sceneInputs.hasClicked_p = false;
+		sceneInputs.hasReleasedClick_p = true;
 		if (GAMELOOP.getCurrentScene() === 'play') {
 			let event = null;
 			if (evt.button === 0) {
@@ -88,5 +92,6 @@ var sceneInputs = {
 		x: null,
 		y: null
 	},
-	hasClicked_p: false
+	hasClicked_p: false,
+	hasReleasedClick_p: true
 };

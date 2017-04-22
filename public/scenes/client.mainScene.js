@@ -6,28 +6,36 @@ _GS.mainScene = function (canvasObj, contextObj) {
     		fontSize: 50,
     		centerCanvasX: true,
     		shadow: true,
-    		y: 350
+    		y: 350,
+    		sound: 'forward',
+    		onclick: function () {SOCKET.emit('request scene change', {newScene: 'lobby'});}
     	}),
     	new tbCharacter({
     		text: 'Control Configurations',
     		fontSize: 50,
     		centerCanvasX: true,
     		shadow: true,
-    		y: 450
+    		y: 450,
+    		sound: 'forward',
+    		onclick: function () {}
     	}),
     	new tbCharacter({
     		text: 'High Scores',
     		fontSize: 50,
     		centerCanvasX: true,
     		shadow: true,
-    		y: 550
+    		y: 550,
+    		sound: 'forward',
+    		onclick: function () {}
     	}),
     	new tbCharacter({
     		text: 'Credits',
     		fontSize: 50,
     		centerCanvasX: true,
     		shadow: true,
-    		y: 650
+    		y: 650,
+    		sound: 'forward',
+    		onclick: function () {}
     	})
     ];
     this.init = function () {

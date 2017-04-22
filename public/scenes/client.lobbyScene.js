@@ -5,6 +5,7 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
     var canvasHeight = canvasObj.canvas_game.height;
     var windowWidth = canvasWidth*0.25;
     var windowHeight = canvasHeight*0.75;
+    SOCKET.emit('get rooms');
     // var roomsList = [];
 
     var joinWindowStart = {x: canvasWidth - 50 - windowWidth, y: 25};
