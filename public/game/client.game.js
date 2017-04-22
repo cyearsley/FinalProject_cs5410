@@ -1,6 +1,15 @@
 // Create a connection to /the_game web socket
 SOCKET = io.connect('/the_game');
 
+function createImage (path) {
+    var img = new Image();
+    img.src = path;
+    img.onload = function () {
+        img.isReady_p = true;
+    };
+    return img;
+}
+
 SOCKET.on('give feedback', function (data) {
 	if (data.open_p || data.openThenClose_p) {
 		var newData = {

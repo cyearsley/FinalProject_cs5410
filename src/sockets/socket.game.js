@@ -9,6 +9,7 @@ module.exports = function (io) {
 	io.of('/the_game').on('connection', function (socket) {
 		console.log("User " + socket.id + " connected!");
 		socket.broadcast.emit('player (dis)connect', {playerName: socket.id, status: '<b style="color: green;">connected</b> to'});
+		socket.emit('change scene', {newScene: 'main'});
 		socket.move_left = false;
 		socket.accLeft = 0;
 

@@ -47,8 +47,10 @@ var MasterScene = function () {
 
     var scenes = {
         // lobby: new _GS.lobbyScene(canvasObj, contextObj),
+        main: null,
         lobby: null,
-        options: null,
+        controls: null,
+        credits: null,
         play: null,
         currentScene: null
     };

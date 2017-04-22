@@ -152,7 +152,7 @@ module.exports = function (data, socket, io) {
 				leaveAllRooms(socket, io);
 				socket.join(data.rname);
 
-				socket.emit('change scene', {newScene: 'lobby'});
+				// socket.emit('change scene', {newScene: 'lobby'});
 			}
 
 			return false;
