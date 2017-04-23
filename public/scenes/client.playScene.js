@@ -4,9 +4,11 @@ _GS.playScene = function (canvasObj, contextObj) {
         new tbCharacter({
             text: 'Exit To Lobby',
             fontSize: 25,
-            shadow: false,
+            shadow: true,
             x: 1250,
             y: 30,
+            color: 'white',
+            hoverColor: 'red',
             sound: 'back',
             onclick: function () {
                 SOCKET.emit('request scene change', {newScene: 'lobby'});
@@ -54,9 +56,6 @@ _GS.playScene = function (canvasObj, contextObj) {
     this.renderScene = function (context, canvasWidth, canvasHeight) {
         context.save();
 
-        for (key in characters) {
-            characters[key].render(context, canvasWidth, canvasHeight);
-        }
         
         if (typeof _GS.playScene.divisionToRender !== 'undefined') {
 
@@ -106,6 +105,9 @@ _GS.playScene = function (canvasObj, contextObj) {
             context.stroke();
         }
 
+        for (key in characters) {
+            characters[key].render(context, canvasWidth, canvasHeight);
+        }
         context.restore();
     };
     this.updateScene = function () {

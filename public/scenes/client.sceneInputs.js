@@ -65,7 +65,7 @@ $(function () {
 	});
 });
 
-var sceneInputs = {
+localStorage.cyControls = localStorage.cyControls || JSON.stringify({
 	'a': {
 		'pressed': false,
 		// 'updated': true,
@@ -87,11 +87,46 @@ var sceneInputs = {
 		'pressed': false,
 		// 'updated': true,
 		'action': 'move up'
-	},
+	}
+});
+
+var sceneInputs = JSON.parse(localStorage.cyControls);
+Object.assign(sceneInputs, {
 	mousePosition: {
 		x: null,
 		y: null
 	},
 	hasClicked_p: false,
 	hasReleasedClick_p: true
-};
+});
+
+// var sceneInputs = {
+// 	'a': {
+// 		'pressed': false,
+// 		// 'updated': true,
+// 		'action': 'move left'
+// 	},
+// 	's': {
+// 		'pressed': false,
+// 		// 'updated': true,
+// 		'action': 'move down'
+
+// 	},
+// 	'd': {
+// 		'pressed': false,
+// 		// 'updated': true,
+// 		'action': 'move right'
+
+// 	},
+// 	'w': {
+// 		'pressed': false,
+// 		// 'updated': true,
+// 		'action': 'move up'
+// 	},
+// 	mousePosition: {
+// 		x: null,
+// 		y: null
+// 	},
+// 	hasClicked_p: false,
+// 	hasReleasedClick_p: true
+// };

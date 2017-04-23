@@ -91,6 +91,26 @@ canvas {
 	/*border: 10px solid black;*/
 }
 
+#controls-form-id input {
+	height: 50px;
+	width: 50px;
+	text-align: center;
+	font-size: 3em;
+	cursor: pointer;
+	border: none;
+	border-radius: 5px;
+}
+
+#controls-form-id input:hover {
+	background-color: yellow;
+}
+
+#controls-form-id {
+	position: absolute;
+	left: 1500px;
+	top: 100px;
+}
+
 /*The following styling (1) is pulled from: https://www.w3schools.com/howto/howto_js_snackbar.asp*/
 /*=================================================================================================== (1)*/
  /* The toast - position it at the bottom and in the middle of the screen */

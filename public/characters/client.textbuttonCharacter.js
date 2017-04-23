@@ -20,6 +20,8 @@ var tbCharacter = function (data) {
 	data.canvasWidth = 1400;
 	data.textWidth = false;
 	data.sound = data.sound || 'forward';
+	data.color = data.color || '#878787';
+	data.hoverColor = data.hoverColor || '#f2ff00';
 	data.onclick = data.onclick || function () {};
 
 	let status = {
@@ -59,10 +61,10 @@ var tbCharacter = function (data) {
 		data.textWidth = context.measureText(data.text).width;
 
 		if (!this.mouseHovering_p()) {
-    		context.fillStyle = '#878787';
+    		context.fillStyle = data.color;
 		}
 		else {
-			context.fillStyle = '#f2ff00';	
+			context.fillStyle = data.hoverColor;	
 		}
 
 		if (data.centerCanvasX) {
