@@ -38,6 +38,11 @@ _GS.mainScene = function (canvasObj, contextObj) {
     		onclick: function () {}
     	})
     ];
+
+    let degrees = 0.01;
+    let degreeIncr = 0;
+    let increaseDegree = true;
+
     this.init = function () {
 
     };
@@ -45,7 +50,17 @@ _GS.mainScene = function (canvasObj, contextObj) {
     	// console.log("CONTEXT: ", context);
     	context.save();
 
+    	let xPos = canvasWidth/2 - _GS.mainScene.images.logo.width/2;
+    	let yPos = 50;
+
+    	context.translate(xPos + _GS.mainScene.images.logo.width / 2, yPos + _GS.mainScene.images.logo.height / 2);
+		context.rotate(Math.PI*180+degrees);
+		context.translate(-(xPos + _GS.mainScene.images.logo.width / 2), -(yPos + _GS.mainScene.images.logo.height / 2));
+		// context.translate(-(position.x + dimensions.wh / 2), -(position.y + dimensions.wh / 2));
+
     	context.drawImage(_GS.mainScene.images.logo, canvasWidth/2 - _GS.mainScene.images.logo.width/2, 50);
+
+    	context.restore();
 
     	// let text = "Multiplayer Lobby";
     	// context.font="50px Boogaloo";
@@ -78,6 +93,24 @@ _GS.mainScene = function (canvasObj, contextObj) {
     this.updateScene = function () {
     	for (let ii = 0; ii < characters.length; ii += 1) {
 			characters[ii].update();
+		}
+		if (increaseDegree === true) {
+			if (degreeIncr <= 120) {
+				degreeIncr += 1;
+				degrees += degreeIncr*0.00001;
+			}
+			else {
+				increaseDegree = false;
+			}
+		}
+		else {
+			if (degreeIncr >= -130) {
+				degreeIncr -= 1.1;
+				degrees += degreeIncr*0.000015;
+			}
+			else {
+				increaseDegree = true;
+			}
 		}
     };
     this.handleInputScene = function () {};

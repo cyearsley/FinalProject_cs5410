@@ -1,6 +1,19 @@
 var _GS = _GS || {};
 _GS.playScene = function (canvasObj, contextObj) {
-    var characters = [];
+    var characters = [
+        new tbCharacter({
+            text: 'Exit To Lobby',
+            fontSize: 25,
+            shadow: false,
+            x: 1250,
+            y: 30,
+            sound: 'back',
+            onclick: function () {
+                SOCKET.emit('request scene change', {newScene: 'lobby'});
+                SOCKET.emit('create room', {rname: 'lobby', createOrJoin: true});
+            }
+        })
+    ];
     var frameCount = 0;
 
     $('.lobby-input').prop('hidden', true);
@@ -40,6 +53,10 @@ _GS.playScene = function (canvasObj, contextObj) {
 
     this.renderScene = function (context, canvasWidth, canvasHeight) {
         context.save();
+
+        for (key in characters) {
+            characters[key].render(context, canvasWidth, canvasHeight);
+        }
         
         if (typeof _GS.playScene.divisionToRender !== 'undefined') {
 
@@ -93,6 +110,10 @@ _GS.playScene = function (canvasObj, contextObj) {
     };
     this.updateScene = function () {
     	// console.log("UPDATE PLAY SCENE!");
+        for (key in characters) {
+            characters[key].update();
+        }
+
         frameCount += 1;
         if (frameCount >= 50) {
             frameCount = 0;
