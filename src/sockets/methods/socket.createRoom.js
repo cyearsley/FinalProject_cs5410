@@ -148,7 +148,7 @@ module.exports = function (data, socket, io) {
 		// if a user tries to create/join a default room...
 		else if (lobbyNameSpaces.indexOf(data.rname) !== -1) {
 			if (typeof io.nsps['/the_game'].adapter.rooms.lobby === 'undefined' || io.nsps['/the_game'].adapter.rooms.lobby.sockets[socket.id] !== true) {
-				socket.emit('give feedback', {msg: 'JOINING LOBBY', openThenClose_p: true});
+				// socket.emit('give feedback', {msg: 'JOINING LOBBY', openThenClose_p: true});
 				leaveAllRooms(socket, io);
 				socket.join(data.rname);
 

@@ -36,7 +36,6 @@ var tbCharacter = function (data) {
 				}
 			}
 			if (sceneInputs.hasClicked_p === true && sceneInputs.hasReleasedClick_p === false) {
-				console.log("SELECTED OPTION!");
 				sceneInputs.hasReleasedClick_p = true;
 				sceneInputs.hasClicked_p = false;
 				SOUNDBOARD.playSound({type: data.sound, volume: 1.0, loop: false});

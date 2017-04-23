@@ -17,7 +17,7 @@ _GS.mainScene = function (canvasObj, contextObj) {
     		shadow: true,
     		y: 450,
     		sound: 'forward',
-    		onclick: function () {}
+    		onclick: function () {SOCKET.emit('request scene change', {newScene: 'controls'});}
     	}),
     	new tbCharacter({
     		text: 'High Scores',
@@ -26,7 +26,7 @@ _GS.mainScene = function (canvasObj, contextObj) {
     		shadow: true,
     		y: 550,
     		sound: 'forward',
-    		onclick: function () {}
+    		onclick: function () {SOCKET.emit('request scene change', {newScene: 'highscores'});}
     	}),
     	new tbCharacter({
     		text: 'Credits',
@@ -35,7 +35,7 @@ _GS.mainScene = function (canvasObj, contextObj) {
     		shadow: true,
     		y: 650,
     		sound: 'forward',
-    		onclick: function () {}
+    		onclick: function () {SOCKET.emit('request scene change', {newScene: 'credits'});}
     	})
     ];
 
