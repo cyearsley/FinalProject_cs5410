@@ -192,6 +192,7 @@ SOCKET.on('notify world change', function (msg) {
                 lifeSpan: {min: 100, max: 200},
                 wh: {min: 5, max: 15}
             });
+            SOUNDBOARD.playSound({type: 'dig', volume: 0.75, loop: false});
         }
     }
     SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});

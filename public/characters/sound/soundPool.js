@@ -4,7 +4,8 @@ var SoundPool = function () {
 		GameMusic: new Audio('resources/sound/main_music.mp3'),
 		hover: new Audio('resources/sound/hover.ogg'),
 		forward: new Audio('resources/sound/forward.ogg'),
-		back: new Audio('resources/sound/back.ogg')
+		back: new Audio('resources/sound/back.ogg'),
+		dig: new Audio('resources/sound/dig.ogg')
 	};
 
 	// Load the sounds
