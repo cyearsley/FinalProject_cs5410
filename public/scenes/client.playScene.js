@@ -84,7 +84,15 @@ _GS.playScene = function (canvasObj, contextObj) {
                 for (let jj = 0; jj < worldDiv[0].length; jj += 1) {
                     if (worldDiv[ii][jj].blockType !== 'empty' && _GS.playScene.images[worldDiv[ii][jj].blockType].isReady_p) {
                         context.drawImage(_GS.playScene.images[worldDiv[ii][jj].blockType], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
+                        if (sceneInputs.mousePosition.x >= R_cx + jj*blockWH && sceneInputs.mousePosition.x < R_cx + jj*blockWH + blockWH &&
+                            sceneInputs.mousePosition.y >= R_cy + ii*blockWH && sceneInputs.mousePosition.y < R_cy + ii*blockWH + blockWH
+                        ) {
+                            context.strokeStyle = 'yellow';
+                            context.strokeRect(R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
+                        }
                     }
+                    // context.strokeStyle = 'yellow';
+                    // context.strokeRect(sceneInputs.mousePosition.x - _GS.playScene.currentPlayer.actualX%blockWH - sceneInputs.mousePosition.x%blockWH, sceneInputs.mousePosition.y - sceneInputs.mousePosition.y%blockWH, blockWH, blockWH);
                 }
             }
 
@@ -99,10 +107,10 @@ _GS.playScene = function (canvasObj, contextObj) {
             // draw current player
             context.drawImage(_GS.playScene.images.tnt, canvasWidth/2, canvasHeight/2, blockWH, blockWH*2);
 
-            context.beginPath();
-            context.moveTo(0,0);
-            context.lineTo(700,350);
-            context.stroke();
+            // context.beginPath();
+            // context.moveTo(0,0);
+            // context.lineTo(700,350);
+            // context.stroke();
         }
 
         for (key in characters) {
