@@ -46,12 +46,13 @@ module.exports = function (io) {
 					players.push(io.nsps['/the_game'].sockets[key]);
 				}
 
-				console.log("PLAYERS: ", players);
+				// console.log("PLAYERS: ", players);
 				console.log("Joined room!");
 				// console.log("THE IO: ", socket.rooms);
 				// console.log("THE IO: ", io.nsps['/the_game'].connected[socket.id]);
 			}
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
+			notifyLobbyPlayers();
 		});
 
 		// Create an existing session
@@ -65,11 +66,16 @@ module.exports = function (io) {
 				// console.log("THE IO: ", io.nsps['/the_game'].connected[socket.id]);
 			}
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
+			notifyLobbyPlayers();
 		});
 
 		// get all available rooms
 		socket.on('get rooms', function () {
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
+		});
+
+		socket.on('get lobby players', function () {
+			notifyLobbyPlayers();
 		});
 
 		// client requesting world properties.
@@ -136,12 +142,23 @@ module.exports = function (io) {
 			socket.emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
 		});
 
+		socket.on('update username', function (msg) {
+			if (typeof msg.username !== 'undefined') {
+				socket.username = msg.username;
+			}
+			else {
+				socket.username = socket.id;
+			}
+			notifyLobbyPlayers();
+		})
+
 		// If a user disconnects from the room.
 		socket.on('disconnect', function () {
 			console.log("User " + socket.id + " DISCONNECTED!");
 			clearInterval(socket.updateInterval);
 			socket.broadcast.emit('player (dis)connect', {playerName: socket.id, status: '<b style="color: red;">disconnected</b> from'});
 			emitPublicMessage('show rooms', {rooms: getAllRooms()});
+			notifyLobbyPlayers();
 		});
 
 		// emit a message to everyone in the '/the_game' namespace.
@@ -162,6 +179,23 @@ module.exports = function (io) {
 			}
 
 			return rooms;
+		}
+
+		function notifyLobbyPlayers () {
+			if (typeof io.nsps['/the_game'].adapter.rooms['lobby'] !== 'undefined') {
+				let playerSockets = io.nsps['/the_game'].adapter.rooms['lobby'].sockets;
+				let players = [];
+				for (key in playerSockets) {
+					if (typeof io.nsps['/the_game'].sockets[key].username !== 'undefined') {
+						players.push(io.nsps['/the_game'].sockets[key].username);
+					}
+					else {
+						players.push(key);
+					}
+				}
+
+				emitPublicMessage('show lobby players', {players: players});
+			}
 		}
 	});
 

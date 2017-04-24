@@ -61,6 +61,19 @@ body {
 	background-color: #ff8080;
 }
 
+#username-input {
+	height: 50px;
+	width: 500px;
+	position: absolute;
+	text-align: center;
+	font-size: 2em;
+	cursor: pointer;
+	border: none;
+	border-radius: 5px;
+	top: 400px;
+	left: 75px;
+}
+
 #create-submit-button {
 	left: 600px;
 	top: 360px;

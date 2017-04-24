@@ -11,7 +11,7 @@ _GS.mainScene = function (canvasObj, contextObj) {
     		onclick: function () {SOCKET.emit('request scene change', {newScene: 'lobby'});}
     	}),
     	new tbCharacter({
-    		text: 'Control Configurations',
+    		text: 'Options / Controls',
     		fontSize: 50,
     		centerCanvasX: true,
     		shadow: true,

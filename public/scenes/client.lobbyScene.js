@@ -20,6 +20,7 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
     var windowWidth = canvasWidth*0.25;
     var windowHeight = canvasHeight*0.75;
     SOCKET.emit('get rooms');
+    SOCKET.emit('get lobby players');
     // var roomsList = [];
 
     var joinWindowStart = {x: canvasWidth - 50 - windowWidth, y: 25};
@@ -56,6 +57,30 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
 		contextObj.context_game.fillStyle = '#353535';
 		context.font='90px Boogaloo';
 		contextObj.context_game.fillText('Multiplayer', 100, 175);
+
+		contextObj.context_game.fillStyle = '#252525';
+		context.font='40px Boogaloo';
+		contextObj.context_game.fillText('Players Currently In Lobby:', 50, 325);
+
+		context.font='30px Boogaloo';
+		let playerObj = {};
+		for (let ii = 0; ii < _GS.lobbyScene.players.length; ii += 1) {
+			playerObj[_GS.lobbyScene.players[ii]] = playerObj[_GS.lobbyScene.players[ii]] + 1 || 1;
+
+			if (JSON.parse(localStorage.cyUserName).userName === _GS.lobbyScene.players[ii]) {
+				contextObj.context_game.fillStyle = 'yellow';
+			}
+			else {
+				contextObj.context_game.fillStyle = '#555555';
+			}
+
+			if (playerObj[_GS.lobbyScene.players[ii]] >= 2) {
+				contextObj.context_game.fillText('╟' + _GS.lobbyScene.players[ii] + ' (instance ['+playerObj[_GS.lobbyScene.players[ii]]+'])', 65, 375+ii*30);
+			}
+			else {
+				contextObj.context_game.fillText('╟' + _GS.lobbyScene.players[ii], 65, 375+ii*30);	
+			}
+		}
 
 		contextObj.context_game.font = "35px Verdana";
 		contextObj.context_game.fillStyle = '#3399ff';
@@ -117,6 +142,7 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
 
 };
 _GS.lobbyScene.rooms = [];
+_GS.lobbyScene.players = [];
 
 // Declare socket listeners.
 SOCKET.on('show rooms', function (data) {
@@ -127,6 +153,10 @@ SOCKET.on('show rooms', function (data) {
 			// console.log("ROOM: ", data.rooms[ii]);
 		}
 	}
+});
+
+SOCKET.on('show lobby players', function (data) {
+	_GS.lobbyScene.players = data.players;
 });
 
 // Declare DOM event listeners once... and only once...

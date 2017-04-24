@@ -24,6 +24,10 @@ _GS.controlsScene = function (canvasObj, contextObj) {
 	let $md = $('#move-down-control');
 	let $ml = $('#move-left-control');
 	let $mr = $('#move-right-control');
+	let $username = $('#username-input');
+	$username.val(JSON.parse(localStorage.cyUserName).userName);
+	$username.prop('hidden', false);
+
 	for (key in oldControls) {
 		console.log("key: ", key);
 		if (oldControls[key].action === 'move up') {
@@ -40,7 +44,6 @@ _GS.controlsScene = function (canvasObj, contextObj) {
 		}
 	}
 
-
     var characters = [
     	new tbCharacter({
     		text: 'Exit Without Saving',
@@ -53,6 +56,7 @@ _GS.controlsScene = function (canvasObj, contextObj) {
     		onclick: function () {
     			SOCKET.emit('request scene change', {newScene: 'main'});
     			$('#controls-form-id').prop('hidden', true);
+    			$username.prop('hidden', true);
     		}
     	}),
     	new tbCharacter({
@@ -64,7 +68,7 @@ _GS.controlsScene = function (canvasObj, contextObj) {
     		y: 675,
     		sound: 'forward',
     		onclick: function () {
-    			if (validateControls($mu.val(), $md.val(), $ml.val(), $mr.val())) {
+    			if (validateControls($mu.val(), $md.val(), $ml.val(), $mr.val()) && $username.val() !== '') {
 	    			let newControls = {};
 	    			newControls[$ml.val().toLowerCase()] = {
 	    				'pressed': false,
@@ -94,14 +98,17 @@ _GS.controlsScene = function (canvasObj, contextObj) {
 						},
 						hasClicked_p: false,
 						hasReleasedClick_p: true
-					})
+					});
 
 	    			sceneInputs = newControls;
 	    			localStorage.cyControls = JSON.stringify(newControls)
+	    			localStorage.cyUserName = JSON.stringify({userName: $username.val()});
+	    			SOCKET.emit('update username', {username: $username.val()});
     			}
 
     			SOCKET.emit('request scene change', {newScene: 'main'});
     			$('#controls-form-id').prop('hidden', true);
+    			$username.prop('hidden', true);
     		}
     	})
     ];
@@ -128,7 +135,7 @@ _GS.controlsScene = function (canvasObj, contextObj) {
 
     	context.fillStyle = '#353535';
 		context.font='90px Boogaloo';
-		context.fillText('Control Configs', 50, 175);
+		context.fillText('Options / Controls', 20, 175);
 
 		context.fillStyle = '#252525';
 		context.font='50px Boogaloo';
@@ -136,6 +143,12 @@ _GS.controlsScene = function (canvasObj, contextObj) {
 		context.fillText('Character Move Down - ', 710, 235);
 		context.fillText('Character Move Left - ', 730, 385);
 		context.fillText('Character Move Right - ', 710, 535);
+		context.fillText('User Name', 230, 380);
+
+		context.fillStyle = '#555555';
+		context.font='20px Boogaloo';
+		context.fillText('This username will be used to record highscores', 170, 480);
+		context.fillText('If you fail to supply one, a random hash will be assigned instead', 120, 510);
 
     	for (ii in characters) {
     		characters[ii].render(context, canvasWidth, canvasHeight);
