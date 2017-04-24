@@ -82,6 +82,7 @@ var MasterScene = function () {
                     }
                 }
             }
+            PG.renderParticles(contextObj.context_game);
         }
     };
 
@@ -98,6 +99,7 @@ var MasterScene = function () {
                     }
                 }
             }
+            PG.updateParticles(timestamp);
         }
     };
 

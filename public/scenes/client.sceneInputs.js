@@ -39,6 +39,18 @@ $(function () {
 	$('#game-canvas')[0].addEventListener('mouseup', function (evt) {
 		sceneInputs.hasClicked_p = false;
 		sceneInputs.hasReleasedClick_p = true;
+
+		// testing particles...
+		if (GAMELOOP.getCurrentScene() !== 'play') {
+			PG.createParticles({
+				colors: ['red', 'green', 'yellow'],
+				xRange: {min: evt.layerX, max: evt.layerX},
+				yRange: {min: evt.layerY-10, max: evt.layerY},
+				count: 10,
+				lifeSpan: {min: 500, max: 1000}
+			});
+		}
+
 		if (GAMELOOP.getCurrentScene() === 'play') {
 			let event = null;
 			if (evt.button === 0) {

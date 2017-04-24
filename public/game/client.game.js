@@ -11,6 +11,12 @@ function createImage (path) {
     return img;
 }
 
+function randomInRange(min, max) {
+    min = +min;
+    max = +max;
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
 SOCKET.on('give feedback', function (data) {
 	if (data.open_p || data.openThenClose_p) {
 		var newData = {
@@ -46,6 +52,7 @@ SOCKET.on('player (dis)connect', function (msg) {
 
 var GameLoop = function () {
 
+    this.initTS = new Date().getTime();
     var sceneControl = new MasterScene();
     this.init = function () {
     	console.log("socket: ", SOCKET)

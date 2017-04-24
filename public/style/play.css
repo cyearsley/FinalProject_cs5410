@@ -20,6 +20,7 @@ body {
 	background-color: blue;
 	width: 1400px;
 	height: 700px;
+	cursor: crosshair;
 }
 
 #background-canvas {
