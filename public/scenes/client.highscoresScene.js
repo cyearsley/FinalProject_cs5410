@@ -1,5 +1,6 @@
 var _GS = _GS || {};
 _GS.highscoresScene = function (canvasObj, contextObj) {
+    SOCKET.emit('request scores');
     var characters = [
     	new tbCharacter({
     		text: 'Exit To Main',
@@ -35,6 +36,25 @@ _GS.highscoresScene = function (canvasObj, contextObj) {
 		context.font='90px Boogaloo';
 		context.fillText('Highscores', 120, 175);
 
+        context.fillStyle = '#000';
+        context.font='50px Boogaloo';
+        context.fillText('Number Of Blocks Destroyed:', 700, 150);
+
+        context.font='40px Boogaloo';
+
+        for (let ii = 0; ii < _GS.highscoresScene.sortedUsers.length; ii +=1) {
+            if (ii >= 10) {
+                break;
+            }
+            if (JSON.parse(localStorage.cyUserName).userName == _GS.highscoresScene.sortedUsers[ii]) {
+                context.fillStyle = 'yellow';
+            }
+            else {
+                context.fillStyle = '#353535';
+            }
+            context.fillText(ii + 1 + ')' +_GS.highscoresScene.sortedUsers[ii] + ' - ' + _GS.highscoresScene.highscores[_GS.highscoresScene.sortedUsers[ii]], 725, 225 + ii*45);
+        }
+
     	for (ii in characters) {
     		characters[ii].render(context, canvasWidth, canvasHeight);
     	}
@@ -66,3 +86,37 @@ _GS.highscoresScene = function (canvasObj, contextObj) {
     };
     this.handleInputScene = function () {};
 };
+
+function getHSList (scores) {
+    let tempScores = [];
+    let bestPrevScore;
+    for (key in scores) {
+        let currScore = {};
+        currScore[key] = scores[key];
+        tempScores.push(currScore);
+    }
+    let sortedScores = [];
+
+    while (tempScores.length > 0) {
+        let bestIndex = 0;
+        for (let ii = 0; ii < tempScores.length; ii += 1) {
+            if (tempScores[ii][Object.keys(tempScores[ii])[0]] > tempScores[bestIndex][Object.keys(tempScores[bestIndex])[0]]) {
+                bestIndex = ii;
+            }
+        }
+
+        sortedScores.push(Object.keys(tempScores[bestIndex])[0]);
+        tempScores.splice(bestIndex, 1);
+    }
+    
+    return sortedScores;
+}
+
+_GS.highscoresScene.highscores = {};
+_GS.highscoresScene.sortedUsers = [];
+
+SOCKET.on('send scores', function (msg) {
+    _GS.highscoresScene.highscores = msg.scores;
+    _GS.highscoresScene.sortedUsers = getHSList(msg.scores);
+    console.log("NEW HIGH SCORES: ", _GS.highscoresScene.highscores);    
+})

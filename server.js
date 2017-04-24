@@ -2,6 +2,13 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var http = require('http').Server(app);
+var fs = require('fs');
+var highscoresFile = __dirname + '\\highscores.txt';
+
+global.highScores = {};
+fs.readFile(highscoresFile, "utf8", function (err, data) {
+	global.highScores = JSON.parse(data);
+});
 
 var socket = require('socket.io');
 var io = socket(http);
@@ -38,4 +45,3 @@ http.listen(PORT, function () {
 // 		}
 // 	}
 // }
-global.roomPs = {};

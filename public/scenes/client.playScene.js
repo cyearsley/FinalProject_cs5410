@@ -10,7 +10,9 @@ _GS.playScene = function (canvasObj, contextObj) {
             color: 'white',
             hoverColor: 'red',
             sound: 'back',
+            hoverText: 'Exit and Save',
             onclick: function () {
+                SOCKET.emit('request score save');
                 SOCKET.emit('request scene change', {newScene: 'lobby'});
                 SOCKET.emit('create room', {rname: 'lobby', createOrJoin: true});
             }

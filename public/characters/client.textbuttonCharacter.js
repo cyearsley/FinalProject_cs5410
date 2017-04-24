@@ -23,6 +23,7 @@ var tbCharacter = function (data) {
 	data.color = data.color || '#878787';
 	data.hoverColor = data.hoverColor || '#f2ff00';
 	data.onclick = data.onclick || function () {};
+	data.hoverText = data.hoverText || false;
 
 	let status = {
 		hasHovered: false
@@ -57,15 +58,24 @@ var tbCharacter = function (data) {
 		let xPos = null;
 		context.save();
 
-		context.font = fontScale*data.scale + 'px Boogaloo';
-		data.textWidth = context.measureText(data.text).width;
 
 		if (!this.mouseHovering_p()) {
     		context.fillStyle = data.color;
 		}
 		else {
-			context.fillStyle = data.hoverColor;	
+			if (data.hoverText !== false) {
+				context.fillStyle = 'rgba(0,0,0,0.5)';
+				context.font='25px Boogaloo';
+				context.fillRect(sceneInputs.mousePosition.x - 155, sceneInputs.mousePosition.y + 25, context.measureText(data.hoverText).width + 10, 25 + 5);
+
+				context.fillStyle = 'white';
+				context.fillText(data.hoverText, sceneInputs.mousePosition.x - 150, sceneInputs.mousePosition.y + 50);
+			}
+			context.fillStyle = data.hoverColor;
 		}
+
+		context.font = fontScale*data.scale + 'px Boogaloo';
+		data.textWidth = context.measureText(data.text).width;
 
 		if (data.centerCanvasX) {
 			xPos = canvasWidth/2 - context.measureText(data.text).width/2;

@@ -4,6 +4,15 @@ var joinRoom = require('./methods/socket.joinRoom.js');
 var leaveAllRooms = require('./../util/server.leaveAllRooms.js');
 var getRenderedDivision = require('./../util/server.getRenderedDivision.js');
 var getMyRoom = require('./../util/server.getMyRoom.js');
+var readHS = require('./../util/server.loadHS.js');
+var saveHS = require('./../util/server.saveHS.js');
+
+// var fs = require('fs');
+// var highscoresFile = __dirname + '\\..\\..\\highscores.txt';
+
+// fs.readFile(highscoresFile, "utf8", function (err, data) {
+// 	console.log("data: ", data);
+// });
 
 module.exports = function (io) {
 	io.of('/the_game').on('connection', function (socket) {
@@ -34,6 +43,14 @@ module.exports = function (io) {
 		// If the user requests a scene change
 		socket.on('request scene change', function (data) {
 			socket.emit('change scene', {newScene: data.newScene});
+		});
+
+		socket.on('request score save', function () {
+			saveHS(socket);
+		});
+
+		socket.on('request scores', function () {
+			socket.emit('send scores', {scores: readHS()});
 		});
 
 		// Join an existing session
@@ -128,6 +145,7 @@ module.exports = function (io) {
 				let blockType = io.nsps['/the_game'].adapter.rooms[roomName].world.struct[yIndex][xIndex].blockType;
 				io.nsps['/the_game'].adapter.rooms[roomName].world.struct[yIndex][xIndex].blockType = 'empty';
 				if (blockType !== 'empty') {
+					socket.score += 1;
 					socket.emit('notify world change', {worldX: xIndex, worldY: yIndex, action: 'destroy block'}); 
 					socket.to(roomName).emit('notify world change', {worldX: xIndex, worldY: yIndex, action: 'destroy block'});
 				}
@@ -139,7 +157,9 @@ module.exports = function (io) {
 		socket.on('get rendered division', function (msg) {
 			// console.log("GET MY ROOM: ", getRenderedDivision(socket.positionX, socket.positionY, +msg.blockWH, getMyRoom(socket, io).world.struct))
 			// console.log("getting rendered division for: ", socket.id, socket.positionX, socket.positionY);
-			socket.emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
+			if (typeof getMyRoom(socket, io).world !== 'undefined') {
+				socket.emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
+			}
 		});
 
 		socket.on('update username', function (msg) {
@@ -149,6 +169,19 @@ module.exports = function (io) {
 			else {
 				socket.username = socket.id;
 			}
+
+			if (typeof readHS()[socket.username] === 'undefined') {
+				socket.score = 0;
+			}
+			else {
+				socket.score = readHS()[socket.username]
+			}
+
+			console.log("SCORE: ", socket.score);
+
+			// load scores
+			// set scores
+
 			notifyLobbyPlayers();
 		})
 
