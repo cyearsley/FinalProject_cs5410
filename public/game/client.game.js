@@ -1,6 +1,5 @@
 // Create a connection to /the_game web socket
 SOCKET = io.connect('/the_game');
-SOCKET.emit('request scene change', {newScene: 'main'});
 
 // localStorage.cyUserName = localStorage.cyUserName || JSON.stringify({
 //     userName: SOCKET.id
@@ -55,6 +54,7 @@ SOCKET.on('player (dis)connect', function (msg) {
 });
 
 var GameLoop = function () {
+    SOCKET.emit('request scene change', {newScene: 'main'});
     localStorage.cyUserName = localStorage.cyUserName || JSON.stringify({
         userName: SOCKET.id
     });
