@@ -148,7 +148,9 @@ _GS.controlsScene = function (canvasObj, contextObj) {
 		context.fillStyle = '#555555';
 		context.font='20px Boogaloo';
 		context.fillText('This username will be used to record highscores', 170, 480);
-		context.fillText('If you fail to supply one, a random hash will be assigned instead', 120, 510);
+		context.fillText('and to identify yourself in the lobby! If you have more than one tab', 110, 510);
+		context.fillText('open per user, the lobby will display each instance of the player', 120, 540);
+		context.fillText('If you fail to supply one, a random hash will be assigned instead', 120, 570);
 
     	for (ii in characters) {
     		characters[ii].render(context, canvasWidth, canvasHeight);
