@@ -119,9 +119,12 @@ module.exports = function (io) {
 				let xIndex = Math.floor((msg.canvasX - Math.floor(msg.canvasWidth/2) + socket.actualX)/30);
 				let yIndex = Math.floor((msg.canvasY - Math.floor(msg.canvasHeight/2) + socket.actualY)/30);
 				let roomName = Object.keys(socket.rooms)[0];
+				let blockType = io.nsps['/the_game'].adapter.rooms[roomName].world.struct[yIndex][xIndex].blockType;
 				io.nsps['/the_game'].adapter.rooms[roomName].world.struct[yIndex][xIndex].blockType = 'empty';
-				socket.emit('notify world change', {worldX: xIndex, worldY: yIndex, action: 'destroy block'}); 
-				socket.to(roomName).emit('notify world change', {worldX: xIndex, worldY: yIndex, action: 'destroy block'});
+				if (blockType !== 'empty') {
+					socket.emit('notify world change', {worldX: xIndex, worldY: yIndex, action: 'destroy block'}); 
+					socket.to(roomName).emit('notify world change', {worldX: xIndex, worldY: yIndex, action: 'destroy block'});
+				}
 				// socket.emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
 				// socket.to(roomName).emit('update rendered division', getRenderedDivision(socket.positionX, socket.positionY, +getMyRoom(socket, io).world.blockWH, getMyRoom(socket, io).world.struct));
 			}

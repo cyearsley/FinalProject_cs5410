@@ -4,6 +4,9 @@ var particleCharacter = function (data) {
 	let particleRotation = 0.1;
 
 	this.update = function (ts) {
+		// console.log("data.life: ", data.life);
+		// console.log("ts: ", ts);
+		// console.log("data.initTS: ", data.initTS)
 		this.life = data.life - (ts - data.initTS);
 		data.x += data.xDir;
 		data.y += data.yDir;

@@ -47,7 +47,7 @@ $(function () {
 				xRange: {min: evt.layerX, max: evt.layerX},
 				yRange: {min: evt.layerY-10, max: evt.layerY},
 				count: 10,
-				lifeSpan: {min: 500, max: 1000}
+				lifeSpan: {min: 100, max: 200}
 			});
 		}
 

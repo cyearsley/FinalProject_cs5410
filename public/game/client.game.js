@@ -51,8 +51,7 @@ SOCKET.on('player (dis)connect', function (msg) {
 });
 
 var GameLoop = function () {
-
-    this.initTS = new Date().getTime();
+    var initTS = undefined;
     var sceneControl = new MasterScene();
     this.init = function () {
     	console.log("socket: ", SOCKET)
@@ -63,6 +62,10 @@ var GameLoop = function () {
         return sceneControl.getCurrentScene();
     };
 
+    this.getTS = function () {
+        return initTS;
+    }
+
     function _gameLoop (timestamp) {
         _update(timestamp);
         // sceneControl.handleInput();
@@ -72,6 +75,8 @@ var GameLoop = function () {
     }
 
     function _update (timestamp) {
+        // console.log("this.initTS", timestamp)
+        initTS = timestamp;
         sceneControl.update(timestamp);
     }
 

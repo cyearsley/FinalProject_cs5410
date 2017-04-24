@@ -177,7 +177,23 @@ SOCKET.on('update world properties', function (msg) {
     console.log("NEW world props: ", _GS.playScene.worldProperties);
 });
 
-SOCKET.on('notify world change', function () {
+SOCKET.on('notify world change', function (msg) {
+    if (typeof msg !== 'undefined') {
+        let particlePosX = msg.worldX*30 - _GS.playScene.currentPlayer.actualX + 700;
+        let particlePosY = msg.worldY*30 - _GS.playScene.currentPlayer.actualY + 350;
+        if (msg.action && msg.action === 'destroy block') {
+            PG.createParticles({
+                colors: ['#703f04', '#595653', '#847f7b', '#1d5b09'],
+                xRange: {min: particlePosX, max: particlePosX},
+                yRange: {min: particlePosY, max: particlePosY},
+                xDir: {min: -10, max: 10},
+                yDir: {min: -5, max: 10},
+                count: 10,
+                lifeSpan: {min: 100, max: 200},
+                wh: {min: 5, max: 15}
+            });
+        }
+    }
     SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});
 });
 

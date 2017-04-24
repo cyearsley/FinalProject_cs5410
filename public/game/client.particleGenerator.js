@@ -10,8 +10,7 @@ var particleGenerator = function () {
 		data.yDir = data.yDir || {min: -5, max: 15};
 		data.acc = data.acc || -0.005;
 		data.wh = data.wh || {min: 5, max: 10};
-		data.initTS = data.initTS || new Date().getTime() - GAMELOOP.initTS;
-
+		data.initTS = data.initTS || GAMELOOP.getTS();
 		for (let ii = 0; ii < data.count; ii += 1) {
 			// create particles
 			particles.push(new particleCharacter({

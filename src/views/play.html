@@ -109,11 +109,12 @@
 	<script>
 	var GAMELOOP = undefined;
 	var SOUNDBOARD = new SoundPool();
-	var PG = new particleGenerator();
+	var PG = undefined;
 	SOUNDBOARD.playSound({type: 'GameMusic', volume: 0.5, loop: true});
 	$(function () {
 		GAMELOOP = new GameLoop();
 		GAMELOOP.init();
+		PG = new particleGenerator();
 		$('#controls-form-id').prop('hidden', true);
 	});
 
