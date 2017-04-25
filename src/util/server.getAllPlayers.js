@@ -13,6 +13,7 @@ module.exports = function (socket, io, rname) {
 		players.push({
 			x: socketObj.positionX,
 			y: socketObj.positionY,
+			username: socketObj.username,
 			actualX: socketObj.actualX,
 			actualY: socketObj.actualY,
 			socket_id: socketsInRoom[ii].split('#')[1]

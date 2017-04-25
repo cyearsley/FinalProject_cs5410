@@ -38,7 +38,7 @@ _GS.highscoresScene = function (canvasObj, contextObj) {
 
         context.fillStyle = '#000';
         context.font='50px Boogaloo';
-        context.fillText('Number Of Blocks Destroyed:', 700, 150);
+        context.fillText('Number Of Blocks Destroyed (top 10):', 600, 120);
 
         context.font='40px Boogaloo';
 
@@ -52,7 +52,7 @@ _GS.highscoresScene = function (canvasObj, contextObj) {
             else {
                 context.fillStyle = '#353535';
             }
-            context.fillText(ii + 1 + ')' +_GS.highscoresScene.sortedUsers[ii] + ' - ' + _GS.highscoresScene.highscores[_GS.highscoresScene.sortedUsers[ii]], 725, 225 + ii*45);
+            context.fillText(ii + 1 + ')' +_GS.highscoresScene.sortedUsers[ii] + ' - ' + _GS.highscoresScene.highscores[_GS.highscoresScene.sortedUsers[ii]], 700, 195 + ii*45);
         }
 
     	for (ii in characters) {

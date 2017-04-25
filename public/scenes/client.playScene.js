@@ -104,7 +104,15 @@ _GS.playScene = function (canvasObj, contextObj) {
             let players = _GS.playScene.players;
             for (let ii = 0; ii < players.length; ii += 1) {
                 if (players[ii].socket_id !== SOCKET.id) {
+                    contextObj.context_game.font = "20px Boogaloo";
+                    contextObj.context_game.fillStyle = 'white';
+                    context.fillText(players[ii].username, R_cx + players[ii].actualX - renderXStart - context.measureText(players[ii].username).width/2 + blockWH/2, R_cy + players[ii].actualY - renderYStart - 20);
                     context.drawImage(_GS.playScene.images.wood, R_cx + players[ii].actualX - renderXStart, R_cy + players[ii].actualY - renderYStart, blockWH, blockWH*2);
+                }
+                else {
+                    contextObj.context_game.font = "20px Boogaloo";
+                    contextObj.context_game.fillStyle = 'yellow';
+                    context.fillText(players[ii].username, R_cx + players[ii].actualX - renderXStart - context.measureText(players[ii].username).width/2 + blockWH/2, R_cy + players[ii].actualY - renderYStart - 20);
                 }
             }
 
