@@ -9,6 +9,7 @@ module.exports = function (size) {
 			if (ii < 250) {
 				worldArr[ii].push({
 					blockType: 'empty',
+					backType: 'empty',
 					blockIndex_y: ii,
 					blockIndex_x: jj,
 					hp: 0
@@ -17,11 +18,14 @@ module.exports = function (size) {
 			else if (ii < 251) {
 				let randomVal = Math.floor(Math.random() * (6 - 1)) + 1;
 				let blockType = 'grass';
+				let backType = 'dirt';
 				if (randomVal <= 2) {
 					blockType = 'empty';
+					backType = blockType;
 				}
 				worldArr[ii].push({
 					blockType: blockType,
+					backType: blockType,
 					blockIndex_y: ii,
 					blockIndex_x: jj,
 					hp: 10
@@ -35,6 +39,7 @@ module.exports = function (size) {
 				}
 				worldArr[ii].push({
 					blockType: blockType,
+					backType: blockType,
 					blockIndex_y: ii,
 					blockIndex_x: jj,
 					hp: 10
@@ -42,15 +47,18 @@ module.exports = function (size) {
 			}
 			else {
 				let blockType = 'stone';
+				let backType = 'stone';
 				let randomVal = Math.floor(Math.random() * (6 - 1)) + 1;
 				if (randomVal <= 1) {
 					blockType = 'coal';
 				}
 				else if (randomVal <= 3) {
 					blockType = 'dirt';
+					backType = blockType
 				}
 				worldArr[ii].push({
 					blockType: blockType,
+					backType: backType,
 					blockIndex_y: ii,
 					blockIndex_x: jj,
 					hp: 20

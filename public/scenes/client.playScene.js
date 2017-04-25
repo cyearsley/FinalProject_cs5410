@@ -84,6 +84,9 @@ _GS.playScene = function (canvasObj, contextObj) {
 
             for (let ii = 0; ii < worldDiv.length; ii += 1) {
                 for (let jj = 0; jj < worldDiv[0].length; jj += 1) {
+                    if (worldDiv[ii][jj].backType !== 'empty' && (worldDiv[ii][jj].blockType === 'glass' || worldDiv[ii][jj].blockType === 'slopeLeft' || worldDiv[ii][jj].blockType === 'slopeRight' || worldDiv[ii][jj].blockType === 'empty' || worldDiv[ii][jj].blockType === 'leaves')) {
+                        context.drawImage(_GS.playScene.images[worldDiv[ii][jj].backType + 'Back'], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
+                    }
                     if (worldDiv[ii][jj].blockType !== 'empty' && _GS.playScene.images[worldDiv[ii][jj].blockType].isReady_p) {
                         context.drawImage(_GS.playScene.images[worldDiv[ii][jj].blockType], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
                     }
@@ -93,10 +96,7 @@ _GS.playScene = function (canvasObj, contextObj) {
                     ) {
                         context.strokeStyle = 'yellow';
                         context.strokeRect(R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
-                        // SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});
                     }
-                    // context.strokeStyle = 'yellow';
-                    // context.strokeRect(sceneInputs.mousePosition.x - _GS.playScene.currentPlayer.actualX%blockWH - sceneInputs.mousePosition.x%blockWH, sceneInputs.mousePosition.y - sceneInputs.mousePosition.y%blockWH, blockWH, blockWH);
                 }
             }
 
@@ -155,7 +155,17 @@ _GS.playScene.images = {
     glass: createImage('./../resources/world-tiles/Glass.PNG'),
     leaves: createImage('./../resources/world-tiles/Leaves.PNG'),
     slopeLeft: createImage('./../resources/world-tiles/plank-left.PNG'),
-    slopeRight: createImage('./../resources/world-tiles/plank-right.PNG')
+    slopeRight: createImage('./../resources/world-tiles/plank-right.PNG'),
+
+    // load back images
+    dirtBack: createImage('./../resources/world-tiles/Dirt-back.PNG'),
+    grassBack: createImage('./../resources/world-tiles/Dirt-back.PNG'),
+    bricksBack: createImage('./../resources/world-tiles/Bricks-back.PNG'),
+    glassBack: createImage('./../resources/world-tiles/Glass-back.PNG'),
+    slopeLeftBack: createImage('./../resources/world-tiles/plank-left-back.PNG'),
+    slopeRightBack: createImage('./../resources/world-tiles/plank-right-back.PNG'),
+    stoneBack: createImage('./../resources/world-tiles/Stone-back.PNG'),
+    woodPlankBack: createImage('./../resources/world-tiles/wood_plank-back.PNG')
 }
 
 // This will be a 2D array retrieved from the server.
