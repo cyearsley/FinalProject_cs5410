@@ -20,7 +20,11 @@ window.addEventListener('keyup', function (evt) {
 				SOCKET.emit('keyup', {action: sceneInputs[evt.key].action, active: false});
 			}
 		}
+
 		sceneInputs[evt.key].pressed = false;
+	}
+	else if (GAMELOOP.getCurrentScene() === 'play' && TB.testIfKey(evt.key)) {
+		TB.setItemSelected(evt.key);
 	}
 });
 
@@ -70,6 +74,9 @@ $(function () {
 				canvasWidth: this.width,
 				canvasHeight: this.height
 			};
+			if (event === 'right') {
+				msg['blockType'] = TB.getItemSelected();
+			}
 			if (event !== null) {
 				SOCKET.emit('mouse up', msg);
 			}

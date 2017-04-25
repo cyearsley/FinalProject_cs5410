@@ -86,12 +86,14 @@ _GS.playScene = function (canvasObj, contextObj) {
                 for (let jj = 0; jj < worldDiv[0].length; jj += 1) {
                     if (worldDiv[ii][jj].blockType !== 'empty' && _GS.playScene.images[worldDiv[ii][jj].blockType].isReady_p) {
                         context.drawImage(_GS.playScene.images[worldDiv[ii][jj].blockType], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
-                        if (sceneInputs.mousePosition.x >= R_cx + jj*blockWH && sceneInputs.mousePosition.x < R_cx + jj*blockWH + blockWH &&
-                            sceneInputs.mousePosition.y >= R_cy + ii*blockWH && sceneInputs.mousePosition.y < R_cy + ii*blockWH + blockWH
-                        ) {
-                            context.strokeStyle = 'yellow';
-                            context.strokeRect(R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
-                        }
+                    }
+                    if (sceneInputs.mousePosition.x >= R_cx + jj*blockWH && sceneInputs.mousePosition.x < R_cx + jj*blockWH + blockWH &&
+                        sceneInputs.mousePosition.y >= R_cy + ii*blockWH && sceneInputs.mousePosition.y < R_cy + ii*blockWH + blockWH &&
+                        (worldDiv[ii][jj].blockType !== 'empty' || worldDiv[ii-1][jj].blockType !== 'empty' || worldDiv[ii+1][jj].blockType !== 'empty' || worldDiv[ii][jj-1].blockType !== 'empty' || worldDiv[ii][jj+1].blockType !== 'empty')
+                    ) {
+                        context.strokeStyle = 'yellow';
+                        context.strokeRect(R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
+                        // SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});
                     }
                     // context.strokeStyle = 'yellow';
                     // context.strokeRect(sceneInputs.mousePosition.x - _GS.playScene.currentPlayer.actualX%blockWH - sceneInputs.mousePosition.x%blockWH, sceneInputs.mousePosition.y - sceneInputs.mousePosition.y%blockWH, blockWH, blockWH);
@@ -118,6 +120,7 @@ _GS.playScene = function (canvasObj, contextObj) {
         for (key in characters) {
             characters[key].render(context, canvasWidth, canvasHeight);
         }
+        TB.render(context, canvasWidth, canvasHeight);
         context.restore();
     };
     this.updateScene = function () {
@@ -146,7 +149,13 @@ _GS.playScene.images = {
     stone: createImage('./../resources/world-tiles/Stone.PNG'),
     tnt: createImage('./../resources/world-tiles/Tnt.PNG'),
     coal: createImage('./../resources/world-tiles/Coal.PNG'),
-    wood: createImage('./../resources/world-tiles/wood.PNG')
+    wood: createImage('./../resources/world-tiles/wood.PNG'),
+    woodPlank: createImage('./../resources/world-tiles/wood_plank.PNG'),
+    bricks: createImage('./../resources/world-tiles/Bricks.PNG'),
+    glass: createImage('./../resources/world-tiles/Glass.PNG'),
+    leaves: createImage('./../resources/world-tiles/Leaves.PNG'),
+    slopeLeft: createImage('./../resources/world-tiles/plank-left.PNG'),
+    slopeRight: createImage('./../resources/world-tiles/plank-right.PNG')
 }
 
 // This will be a 2D array retrieved from the server.

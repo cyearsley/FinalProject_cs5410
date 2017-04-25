@@ -19,6 +19,7 @@
 	<script src="characters/sound/soundPool.js"></script>
 	<script src="characters/client.textbuttonCharacter.js"></script>
 	<script src="characters/client.particleCharacter.js"></script>
+	<script src="characters/client.toolBar.js"></script>
 	<script src="game/client.particleGenerator.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Boogaloo" rel="stylesheet">
 	<style>
@@ -112,10 +113,12 @@
 	var GAMELOOP = undefined;
 	var SOUNDBOARD = new SoundPool();
 	var PG = undefined;
+	var TB = undefined;
 	SOUNDBOARD.playSound({type: 'GameMusic', volume: 0.5, loop: true});
 	$(function () {
 		GAMELOOP = new GameLoop();
 		GAMELOOP.init();
+		TB = new toolBarCharacter();
 		PG = new particleGenerator();
 		$('#controls-form-id').prop('hidden', true);
 	});
