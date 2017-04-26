@@ -1,5 +1,5 @@
 var fs = require('fs');
-var highscoresFile = __dirname + '\\..\\..\\highscores.txt';
+var highscoresFile = __dirname + '/../../highscores.txt';
 var readHS = require('./server.loadHS.js');
 
 module.exports = function (socket) {

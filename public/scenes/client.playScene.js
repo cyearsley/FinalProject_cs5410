@@ -152,28 +152,28 @@ _GS.playScene = function (canvasObj, contextObj) {
 _GS.playScene.blockWH = 30;
 
 _GS.playScene.images = {
-    grass: createImage('./../resources/world-tiles/Grass.PNG'),
-    dirt: createImage('./../resources/world-tiles/Dirt.PNG'),
-    stone: createImage('./../resources/world-tiles/Stone.PNG'),
-    tnt: createImage('./../resources/world-tiles/Tnt.PNG'),
-    coal: createImage('./../resources/world-tiles/Coal.PNG'),
-    wood: createImage('./../resources/world-tiles/wood.PNG'),
-    woodPlank: createImage('./../resources/world-tiles/wood_plank.PNG'),
-    bricks: createImage('./../resources/world-tiles/Bricks.PNG'),
-    glass: createImage('./../resources/world-tiles/Glass.PNG'),
-    leaves: createImage('./../resources/world-tiles/Leaves.PNG'),
-    slopeLeft: createImage('./../resources/world-tiles/plank-left.PNG'),
-    slopeRight: createImage('./../resources/world-tiles/plank-right.PNG'),
+    grass: createImage('resources/world-tiles/Grass.png'),
+    dirt: createImage('./../resources/world-tiles/Dirt.png'),
+    stone: createImage('./../resources/world-tiles/Stone.png'),
+    tnt: createImage('./../resources/world-tiles/Tnt.png'),
+    coal: createImage('./../resources/world-tiles/Coal.png'),
+    wood: createImage('./../resources/world-tiles/wood.png'),
+    woodPlank: createImage('./../resources/world-tiles/wood_plank.png'),
+    bricks: createImage('./../resources/world-tiles/Bricks.png'),
+    glass: createImage('./../resources/world-tiles/Glass.png'),
+    leaves: createImage('./../resources/world-tiles/Leaves.png'),
+    slopeLeft: createImage('./../resources/world-tiles/plank-left.png'),
+    slopeRight: createImage('./../resources/world-tiles/plank-right.png'),
 
     // load back images
-    dirtBack: createImage('./../resources/world-tiles/Dirt-back.PNG'),
-    grassBack: createImage('./../resources/world-tiles/Dirt-back.PNG'),
-    bricksBack: createImage('./../resources/world-tiles/Bricks-back.PNG'),
-    glassBack: createImage('./../resources/world-tiles/Glass-back.PNG'),
-    slopeLeftBack: createImage('./../resources/world-tiles/plank-left-back.PNG'),
-    slopeRightBack: createImage('./../resources/world-tiles/plank-right-back.PNG'),
-    stoneBack: createImage('./../resources/world-tiles/Stone-back.PNG'),
-    woodPlankBack: createImage('./../resources/world-tiles/wood_plank-back.PNG')
+    dirtBack: createImage('./../resources/world-tiles/Dirt-back.png'),
+    grassBack: createImage('./../resources/world-tiles/Dirt-back.png'),
+    bricksBack: createImage('./../resources/world-tiles/Bricks-back.png'),
+    glassBack: createImage('./../resources/world-tiles/Glass-back.png'),
+    slopeLeftBack: createImage('./../resources/world-tiles/plank-left-back.png'),
+    slopeRightBack: createImage('./../resources/world-tiles/plank-right-back.png'),
+    stoneBack: createImage('./../resources/world-tiles/Stone-back.png'),
+    woodPlankBack: createImage('./../resources/world-tiles/wood_plank-back.png')
 }
 
 // This will be a 2D array retrieved from the server.
