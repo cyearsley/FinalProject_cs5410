@@ -24,7 +24,7 @@ body {
 }
 
 #background-canvas {
-	background-image: url('../resources/cloud-background.png');
+	background-image: url('../resources/background/landscape.png');
 	/*border-left: 10px solid black;*/
 	/*border-right: 10px solid black;*/
 	/*border-top: 5px solid black;*/

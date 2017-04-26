@@ -19,6 +19,12 @@ _GS.playScene = function (canvasObj, contextObj) {
         })
     ];
     var frameCount = 0;
+    this.back1X = 0;
+    this.back2X = 0;
+    this.back3X = 0;
+    this.back4X = 0;
+    this.back1Y = 0;
+    this.back2Y = 0;
 
     $('.lobby-input').prop('hidden', true);
     $('.lobby-button').prop('hidden', true);
@@ -58,6 +64,43 @@ _GS.playScene = function (canvasObj, contextObj) {
     this.renderScene = function (context, canvasWidth, canvasHeight) {
         context.save();
 
+        // render mountains!
+        // context.drawImage(_GS.playScene.images['back2'], this.back2X/20, -350 + this.back1Y, 1000, 1000);
+        // context.drawImage(_GS.playScene.images['back2'], this.back2X/20 + 1000,  -350 + this.back1Y, 1000, 1000);
+        // context.drawImage(_GS.playScene.images['back2'], this.back2X/20 + 2000,  -350 + this.back1Y, 1000, 1000);
+
+        context.drawImage(_GS.playScene.images['back6'], 0,  -350 + this.back1Y, 1400, 1000);
+
+        context.drawImage(_GS.playScene.images['back5'], this.back3X/15 - 5, -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back5'], this.back3X/15 - 10 + 1000,  -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back5'], this.back3X/15 - 15 + 2000,  -250 + this.back1Y, 1000, 1000);
+
+        context.drawImage(_GS.playScene.images['back4'], this.back4X/20 - 5, -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back4'], this.back4X/20 - 10 + 1000,  -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back4'], this.back4X/20 - 15 + 2000,  -250 + this.back1Y, 1000, 1000);
+
+        context.drawImage(_GS.playScene.images['back3'], this.back3X/15 - 5, -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back3'], this.back3X/15 - 10 + 1000,  -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back3'], this.back3X/15 - 15 + 2000,  -250 + this.back1Y, 1000, 1000);
+
+        context.drawImage(_GS.playScene.images['back2'], this.back2X/10 - 5, -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back2'], this.back2X/10 - 10 + 1000,  -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back2'], this.back2X/10 - 15 + 2000,  -250 + this.back1Y, 1000, 1000);
+
+        context.drawImage(_GS.playScene.images['back1'], this.back1X/5 - 5, -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back1'], this.back1X/5 - 10 + 1000,  -250 + this.back1Y, 1000, 1000);
+        context.drawImage(_GS.playScene.images['back1'], this.back1X/5 - 15 + 2000,  -250 + this.back1Y, 1000, 1000);
+
+
+        // context.drawImage(_GS.playScene.images['back1'], this.back1X/10 - 5, -250 + this.back1Y, 1000, 1000);
+        // context.drawImage(_GS.playScene.images['back1'], this.back1X/10 - 10 + 1000,  -250 + this.back1Y, 1000, 1000);
+        // context.drawImage(_GS.playScene.images['back1'], this.back1X/10 - 15 + 2000,  -250 + this.back1Y, 1000, 1000);
+
+        // context.drawImage(_GS.playScene.images['back1'], this.back1X/10 - 5, -250 + this.back1Y, 1000, 1000);
+        // context.drawImage(_GS.playScene.images['back1'], this.back1X/10 - 10 + 1000,  -250 + this.back1Y, 1000, 1000);
+        // context.drawImage(_GS.playScene.images['back1'], this.back1X/10 - 15 + 2000,  -250 + this.back1Y, 1000, 1000);
+
+
         
         if (typeof _GS.playScene.divisionToRender !== 'undefined') {
 
@@ -67,7 +110,7 @@ _GS.playScene = function (canvasObj, contextObj) {
             let renderXStart = worldDiv[0][0].blockIndex_x * blockWH;
             let renderXEnd = worldDiv[0][worldDiv[0].length -1].blockIndex_x * blockWH;
 
-            let B_wx = Math.floor((renderXEnd - renderXStart - canvasWidth)/2);
+            let B_wx = Math.floor((renderXEnd - renderXStart - canvasWidth)/2); 
             let Dx = Math.floor(worldDiv[0].length/2);
             let Ax = (_GS.playScene.currentPlayer.actualX - worldDiv[0][Dx].blockIndex_x * blockWH);
 
@@ -133,6 +176,11 @@ _GS.playScene = function (canvasObj, contextObj) {
     };
     this.updateScene = function () {
     	// console.log("UPDATE PLAY SCENE!");
+        this.back1X = -(_GS.playScene.currentPlayer.actualX%4950);
+        this.back2X = -(_GS.playScene.currentPlayer.actualX%9950);
+        this.back3X = -(_GS.playScene.currentPlayer.actualX%14950);
+        this.back4X = -(_GS.playScene.currentPlayer.actualX%19950);
+        // this.back1Y = -(_GS.playScene.currentPlayer.actualY);
         for (key in characters) {
             characters[key].update();
         }
@@ -164,6 +212,12 @@ _GS.playScene.images = {
     leaves: createImage('resources/world-tiles/Leaves.png'),
     slopeLeft: createImage('resources/world-tiles/plank-left.png'),
     slopeRight: createImage('resources/world-tiles/plank-right.png'),
+    back1: createImage('resources/background/tree1.png'),
+    back2: createImage('resources/background/tree2.png'),
+    back3: createImage('resources/background/mountain1.png'),
+    back4: createImage('resources/background/mountain2.png'),
+    back5: createImage('resources/background/clouds.png'),
+    back6: createImage('resources/background/background.png'),
 
     // load back images
     dirtBack: createImage('resources/world-tiles/Dirt-back.png'),
