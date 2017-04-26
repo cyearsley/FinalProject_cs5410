@@ -117,5 +117,5 @@ _GS.mainScene = function (canvasObj, contextObj) {
 };
 
 _GS.mainScene.images = {
-    logo: createImage('./../resources/terrar_logo.png')
+    logo: createImage('./../resources/terrar_logo.PNG')
 }
