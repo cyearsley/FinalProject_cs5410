@@ -169,6 +169,14 @@ module.exports = function (io) {
 						socket.to(roomName).emit('notify world change', {worldX: xIndex, worldY: yIndex, action: 'destroy block'});
 					}
 				}
+				else if (msg.button === 'middle') {
+					let world = io.nsps['/the_game'].adapter.rooms[roomName].world.struct;
+					// if (world[yIndex-1][xIndex].backType !== 'empty' || world[yIndex+1][xIndex].backType !== 'empty' || world[yIndex][xIndex-1].backType !== 'empty' || world[yIndex][xIndex+1].backType !== 'empty') {
+						io.nsps['/the_game'].adapter.rooms[roomName].world.struct[yIndex][xIndex].backType = msg.blockType;
+						socket.emit('notify world change', {worldX: xIndex, worldY: yIndex, action: 'destroy block'}); 
+						socket.to(roomName).emit('notify world change', {worldX: xIndex, worldY: yIndex, action: 'destroy block'});
+					// }
+				}
 			}
 		});
 

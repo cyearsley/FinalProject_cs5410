@@ -74,7 +74,7 @@ $(function () {
 				canvasWidth: this.width,
 				canvasHeight: this.height
 			};
-			if (event === 'right') {
+			if (event === 'right' || event === 'middle') {
 				msg['blockType'] = TB.getItemSelected();
 			}
 			if (event !== null) {

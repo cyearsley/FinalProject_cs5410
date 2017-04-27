@@ -127,13 +127,13 @@ _GS.playScene = function (canvasObj, contextObj) {
 
             let R_cy = 0 - B_wy - Ay;
 
-            for (let ii = 0; ii < worldDiv.length; ii += 1) {
+            for (let ii = 1; ii < worldDiv.length; ii += 1) {
                 for (let jj = 0; jj < worldDiv[0].length; jj += 1) {
                     if (worldDiv[ii][jj].backType !== 'empty' && (worldDiv[ii][jj].blockType === 'glass' || worldDiv[ii][jj].blockType === 'slopeLeft' || worldDiv[ii][jj].blockType === 'slopeRight' || worldDiv[ii][jj].blockType === 'empty' || worldDiv[ii][jj].blockType === 'leaves')) {
                         if ((worldDiv[ii][jj].backType === 'dirt' || worldDiv[ii][jj].backType === 'grass') && worldDiv[ii-1][jj].blockType === 'empty' && worldDiv[ii-1][jj].backType === 'empty') {
                             context.drawImage(_GS.playScene.images['dirtBackTop'], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
                         }
-                        else {
+                        else if (typeof _GS.playScene.images[worldDiv[ii][jj].backType + 'Back'] !== 'undefined') {
                             context.drawImage(_GS.playScene.images[worldDiv[ii][jj].backType + 'Back'], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
                         }
                     }
