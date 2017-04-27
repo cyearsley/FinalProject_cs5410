@@ -5,63 +5,55 @@ HOW TO START GAME:
 Required: Node.js - v6.9.4, NPM - 3.10.10
 Execute the following commands in the root of the game.
 	i) npm install
-	ii) npm start
+	ii) npm start (or you could simply use: "node server.js")
 	iii) in the browser, go to the url: http://localhost:8000/play
 
-HOW TO USE THE GAME:
-	When you go to http://localhost:8000/play, you will automatically be in the lobby
-	scene.  To connect other people to the lobby, in different tabs/windows go to the
-	url: http://localhost:8000/play.
-	From here, clients can do one of two things:
-		1) Create a game
-		2) Join a game - when games have been created, they will be visible to other
-		clients in the lobby.
+HOW TO PLAY THE GAME:
+	At the start screen, you can do one of four things:
+		i) Options / Controls
+			Here, you will be able to re-config your controls, and set your user name (which I recommend doing)
 
-	When you create a game, only the player who created the world will be moving - this
-	illustrates rendering, and if other people join the game in time rendering other
-	players.
+		ii) Highscores
+			Here you will be able to see all highscores saved to the server.
+				If you have troubles with this, try and pull the file from: https://github.com/cyearsley/FinalProject_cs5410/blob/release-prep-1.3/highscores.txt
 
-	NOTE: players (at this point), are represented by TNT blocks.
+		iii) Credits
+			Just credits
 
-Grading criteria that applies to my game (discluding the required criteria):
-1) Multiplayer (75 points)
-2*) I will try to implement other things, but as Multiplater alone is worth 75 points,
-	I figured I was just include this.
+		iv) Multiplayer Lobby
+			This is where the magic happens, I'll describe this in more detail...
 
-Included in this milestone:
-1) Multiplayer - all required criteria for multiplayer is INCLUDED in this milestone,
-the criteria are (and how they are implemented):
-	i) Game model exists at the server - there are several data structures that determine
-	the status of every component in the game (i.e. the world, the sub division of the
-	world to be rendered relative to the players' position, and any player properties.)
-	Any update to the state of the game is made on the server (NOT the client).
+HOW TO USE MULTIPLAYER:
+	It is pretty straightforward: In the Multiplayer Lobby, you will be able to see all users connected to the lobby,
+	from here you can either create a world OR join an existing world.
+	Once in the world, you will be able to navigate with the keys you configured (AWSD by default).
+	You will also be able to manipulate the terrain with the left, middle, and right mouse buttons (further instructions are in the play scene itself at the bottom left corner.)
 
-	ii) Pre-game lobby for players to gather, then trasnition to a game - Clients are
-	able to either create or join a game.  When a client creates a game, they are added
-	to the world once the server has "procedurally" generated the world relative to
-	that specific game. As clients create worlds, they are visible to other clients in 
-	the lobby.  When clients join an existing world, players are able to see each other, 
-	and the world around them.
+Criteria this game has met:
+	Gameplay (REQUIRED) - 35
+	Menuing (REQUIRED) - 10
+	Reconfigurable Controls (REQUIRED) - 15
+	Particle Effects (REQUIRED) - 15
+	Server-based high scores (REQUIRED) - 10
 
-	iii) Gracefully handle players leaving - When a client either connects or 
-	disconnects from the server, a message is sent to ALL other clients indicating that 
-	the player has connected/disconnected.  Also, if a player disconnects from the 
-	server (or leaves the world), that player is automatically removed from the world 
-	and removed from the datastructure on the server containing players
-
-	iv) Not requiring multiple game isntances running at the same time - world isntances 
-	are dynamic, dependent on the worlds players create.  The server is only 
-	instantiated once.
-
-2) Gameplay - partially implemented, as the world in rendered and other players are 
-rendered.
-
-3) The framework for reconfigurable controls is written, it has yet to be implemented 
-yet though.
+	Animation (minimal) - 10
+	Sound and Music - 10
+	Tile Rendering - 15
+	2D Camera - 20
+	Generalized Collision Detection - 10
+	Multiplayer - 75
+	Procedural Generation (minimal) - 25
 
 
-I hope this is satisfactory for the milestone, I have put a great deal of time towards
-this game as it stands.
+If you have ANY question, please feel free to let me know.
+If you have troubles with the submitted files via canvas, try and use the code from the repo: https://github.com/cyearsley/FinalProject_cs5410/tree/release-prep-1.3
+68 Total commits if you're interested ;D
+
+
+Resources Used
+Most art (especially the tiles) were created by me.
+Other artwork (exluding the Terrar logo) were initially found on opengameart.org
+The Terrar Logo was initially found on http://terraria.wikia.com/wiki/File:Terraria_logo_by_dak47922-d4l8t7v.png, I did however edit this image to my own needs.
 
 Best,
-Caleb
+Caleb Yearsley
