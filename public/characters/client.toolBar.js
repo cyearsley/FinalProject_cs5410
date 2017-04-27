@@ -60,6 +60,7 @@ var toolBarCharacter = function (data) {
 			if (data[key] !== 'empty' && _GS.playScene.images[data[key]].isReady_p) {
 				context.drawImage(_GS.playScene.images[data[key]], canvasWidth/2 - 42*5 + index*42, canvasHeight - 45, 30, 30)
 			}
+			context.fillText(index + 1, canvasWidth/2 - 42*5 + index*42, canvasHeight - 45)
 			index += 1;
 		}
 

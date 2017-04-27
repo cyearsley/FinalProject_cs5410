@@ -130,7 +130,12 @@ _GS.playScene = function (canvasObj, contextObj) {
             for (let ii = 0; ii < worldDiv.length; ii += 1) {
                 for (let jj = 0; jj < worldDiv[0].length; jj += 1) {
                     if (worldDiv[ii][jj].backType !== 'empty' && (worldDiv[ii][jj].blockType === 'glass' || worldDiv[ii][jj].blockType === 'slopeLeft' || worldDiv[ii][jj].blockType === 'slopeRight' || worldDiv[ii][jj].blockType === 'empty' || worldDiv[ii][jj].blockType === 'leaves')) {
-                        context.drawImage(_GS.playScene.images[worldDiv[ii][jj].backType + 'Back'], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
+                        if ((worldDiv[ii][jj].backType === 'dirt' || worldDiv[ii][jj].backType === 'grass') && worldDiv[ii-1][jj].blockType === 'empty' && worldDiv[ii-1][jj].backType === 'empty') {
+                            context.drawImage(_GS.playScene.images['dirtBackTop'], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
+                        }
+                        else {
+                            context.drawImage(_GS.playScene.images[worldDiv[ii][jj].backType + 'Back'], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
+                        }
                     }
                     if (worldDiv[ii][jj].blockType !== 'empty' && _GS.playScene.images[worldDiv[ii][jj].blockType].isReady_p) {
                         context.drawImage(_GS.playScene.images[worldDiv[ii][jj].blockType], R_cx + jj*blockWH, R_cy + ii*blockWH, blockWH, blockWH);
@@ -260,6 +265,7 @@ _GS.playScene.images = {
 
     // load back images
     dirtBack: createImage('resources/world-tiles/Dirt-back.png'),
+    dirtBackTop: createImage('resources/world-tiles/Dirt-back-top.png'),
     grassBack: createImage('resources/world-tiles/Dirt-back.png'),
     bricksBack: createImage('resources/world-tiles/Bricks-back.png'),
     glassBack: createImage('resources/world-tiles/Glass-back.png'),
