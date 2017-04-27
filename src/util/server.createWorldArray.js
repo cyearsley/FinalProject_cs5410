@@ -86,7 +86,7 @@ module.exports = function (size) {
 										worldArr[startII+yy][startJJ+xx].blockType = map[treeType[yy][xx]];
 									}
 								}
-								if (yy === treeType.length - 1) {
+								if (yy === treeType.length - 1 && typeof worldArr[startII+treeType.length][startJJ+Math.floor(treeType[0].length/2)] !== 'undefined') {
 									worldArr[startII+treeType.length][startJJ+Math.floor(treeType[0].length/2)].blockType = 'grass';
 								}
 							}

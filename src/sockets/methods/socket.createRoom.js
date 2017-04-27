@@ -50,7 +50,7 @@ module.exports = function (data, socket, io) {
 					let topActualY = io.nsps['/the_game'].sockets[players[ii].socket].actualY;
 					let bottomActualY = io.nsps['/the_game'].sockets[players[ii].socket].actualY + 60;
 					if (players[ii].move_left === true) {
-						if (world[Math.floor(topActualY/30)][Math.floor(leftActualX/30)].blockType === 'empty' && world[Math.floor((topActualY + 20)/30) + 1][Math.floor(leftActualX/30)].blockType === 'empty') {
+						if (world[Math.floor(topActualY/30)][Math.floor(leftActualX/30)].blockType === 'empty' && world[Math.floor((topActualY + 20)/30) + 1][Math.floor(leftActualX/30)].blockType === 'empty' && io.nsps['/the_game'].sockets[players[ii].socket].positionX > 100) {
 							if (io.nsps['/the_game'].sockets[players[ii].socket].accLeft <= 10) {
 								io.nsps['/the_game'].sockets[players[ii].socket].accLeft += 0.05;
 							}
@@ -66,7 +66,7 @@ module.exports = function (data, socket, io) {
 					}
 
 					if (players[ii].move_right === true) {
-						if (world[Math.floor(topActualY/30)][Math.floor(rightActualX/30)].blockType === 'empty' && world[Math.floor((topActualY + 20)/30) + 1][Math.floor(rightActualX/30)].blockType === 'empty') {
+						if (world[Math.floor(topActualY/30)][Math.floor(rightActualX/30)].blockType === 'empty' && world[Math.floor((topActualY + 20)/30) + 1][Math.floor(rightActualX/30)].blockType === 'empty' && io.nsps['/the_game'].sockets[players[ii].socket].positionX < 2900) {
 							if (io.nsps['/the_game'].sockets[players[ii].socket].accRight <= 10) {
 								io.nsps['/the_game'].sockets[players[ii].socket].accRight += 0.05;
 							}
@@ -86,7 +86,7 @@ module.exports = function (data, socket, io) {
 					}
 
 					if (players[ii].move_down === true && players[ii].move_up !== true) {
-						if (world[Math.floor(bottomActualY/30)][Math.floor((leftActualX+5)/30)].blockType === 'empty' && world[Math.floor(bottomActualY/30)][Math.floor((rightActualX-5)/30)].blockType === 'empty') {
+						if (world[Math.floor(bottomActualY/30)][Math.floor((leftActualX+5)/30)].blockType === 'empty' && world[Math.floor(bottomActualY/30)][Math.floor((rightActualX-5)/30)].blockType === 'empty' && io.nsps['/the_game'].sockets[players[ii].socket].positionY < 900) {
 							if (io.nsps['/the_game'].sockets[players[ii].socket].accDown <= 7) {
 								io.nsps['/the_game'].sockets[players[ii].socket].accDown += 0.2;
 							}
