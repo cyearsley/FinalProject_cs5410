@@ -30,6 +30,7 @@ body {
 	/*border-top: 5px solid black;*/
 }
 
+
 .lobby-input {
 	width: 300px;
 	height: 50px;
@@ -50,17 +51,6 @@ body {
 	top: 300px;
 }
 
-.lobby-button {
-	position: absolute;
-	width: 300px;
-	height: 35px;
-	font-size: 20px;
-	text-align: center;
-	border: none;
-	border-radius: 5px;
-	background-color: #ff8080;
-}
-
 #username-input {
 	height: 50px;
 	width: 500px;
@@ -73,6 +63,23 @@ body {
 	top: 400px;
 	left: 75px;
 }
+
+input, #join-input, #create-input, #username-input  {
+	background-color: #ccc;
+	border: black solid 1px;
+}
+
+.lobby-button {
+	position: absolute;
+	width: 300px;
+	height: 35px;
+	font-size: 20px;
+	text-align: center;
+	border: none;
+	border-radius: 5px;
+	background-color: #ff8080;
+}
+
 
 #create-submit-button {
 	left: 600px;

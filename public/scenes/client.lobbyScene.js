@@ -68,7 +68,7 @@ _GS.lobbyScene = function (canvasObj, contextObj) {
 			playerObj[_GS.lobbyScene.players[ii]] = playerObj[_GS.lobbyScene.players[ii]] + 1 || 1;
 
 			if (JSON.parse(localStorage.cyUserName).userName === _GS.lobbyScene.players[ii]) {
-				contextObj.context_game.fillStyle = 'yellow';
+				contextObj.context_game.fillStyle = 'red';
 			}
 			else {
 				contextObj.context_game.fillStyle = '#555555';
