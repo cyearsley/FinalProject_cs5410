@@ -192,6 +192,16 @@ _GS.playScene = function (canvasObj, contextObj) {
             characters[key].render(context, canvasWidth, canvasHeight);
         }
 
+        contextObj.context_game.font = "25px Boogaloo";
+        contextObj.context_game.fillStyle = 'black';
+        context.fillText('Mouse Controls:', 10, canvasHeight - 100);
+
+        contextObj.context_game.font = "20px Boogaloo";
+        contextObj.context_game.fillStyle = '#252525';
+        context.fillText('Destroy Blocks: Left Click', 15, canvasHeight - 70);
+        context.fillText('Place Blocks: Right Click', 15, canvasHeight - 40);
+        context.fillText('Set Background Blocks: Middle Click', 15, canvasHeight - 10);
+
         TB.render(context, canvasWidth, canvasHeight);
         // draw current player
         let walkPhase = Math.ceil(walkCount/5);
@@ -207,6 +217,8 @@ _GS.playScene = function (canvasObj, contextObj) {
         else {
             context.drawImage(_GS.playScene.images['cp2'], x, canvasHeight/2, 30, 30*2);
         }
+
+
         context.restore();
     };
     this.updateScene = function () {
