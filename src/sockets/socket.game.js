@@ -109,9 +109,13 @@ module.exports = function (io) {
 		socket.on('keydown', function (msg) {
 			if (msg.action === 'move left') {
 				socket.move_left = true;
+				socket.dir = 'left';
+				socket.isMoving = true;
 			}
 			if (msg.action === 'move right') {
 				socket.move_right = true;
+				socket.dir = 'right';
+				socket.isMoving = true;
 			}
 			if (msg.action === 'move up') {
 				socket.move_up = true;
@@ -133,6 +137,10 @@ module.exports = function (io) {
 			}
 			if (msg.action === 'move down') {
 				socket.move_down = true;
+			}
+
+			if (!socket.move_left && !socket.move_right) {
+				socket.isMoving = false;
 			}
 		});
 

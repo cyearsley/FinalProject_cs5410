@@ -19,6 +19,8 @@ _GS.playScene = function (canvasObj, contextObj) {
         })
     ];
     var frameCount = 0;
+    var walkCount = 0;
+    var otherWalkCount = 0;
     this.back1X = 0;
     this.back2X = 0;
     this.back3X = 0;
@@ -147,20 +149,32 @@ _GS.playScene = function (canvasObj, contextObj) {
             let players = _GS.playScene.players;
             for (let ii = 0; ii < players.length; ii += 1) {
                 if (players[ii].socket_id !== SOCKET.id) {
+
+                    context.fillStyle = 'rgba(0,0,0,0.5)';
+                    context.font='25px Boogaloo';
+                    context.fillRect(R_cx + players[ii].actualX - renderXStart - context.measureText(players[ii].username).width/2 + blockWH/2 - 5, R_cy + players[ii].actualY - renderYStart - 40, context.measureText(players[ii].username).width + 10, 30);
+
                     contextObj.context_game.font = "20px Boogaloo";
                     contextObj.context_game.fillStyle = 'white';
                     context.fillText(players[ii].username, R_cx + players[ii].actualX - renderXStart - context.measureText(players[ii].username).width/2 + blockWH/2, R_cy + players[ii].actualY - renderYStart - 20);
-                    context.drawImage(_GS.playScene.images.wood, R_cx + players[ii].actualX - renderXStart, R_cy + players[ii].actualY - renderYStart, blockWH, blockWH*2);
+
+                    let otherWalkPhase = Math.ceil(otherWalkCount/5);
+
+                    context.drawImage(_GS.playScene.images['op' + otherWalkPhase], R_cx + players[ii].actualX - renderXStart, R_cy + players[ii].actualY - renderYStart, blockWH, blockWH*2);
                 }
                 else {
+                    context.fillStyle = 'rgba(0,0,0,0.5)';
+                    context.font='25px Boogaloo';
+                    context.fillRect(R_cx + players[ii].actualX - renderXStart - context.measureText(players[ii].username).width/2 + blockWH/2 - 5, 310, context.measureText(players[ii].username).width + 10, 30);
+
                     contextObj.context_game.font = "20px Boogaloo";
                     contextObj.context_game.fillStyle = 'yellow';
                     context.fillText(players[ii].username, R_cx + players[ii].actualX - renderXStart - context.measureText(players[ii].username).width/2 + blockWH/2, R_cy + players[ii].actualY - renderYStart - 20);
                 }
             }
 
-            // draw current player
-            context.drawImage(_GS.playScene.images.tnt, canvasWidth/2, canvasHeight/2, blockWH, blockWH*2);
+            // console.log("CURRENT PLAYERS: ", _GS.playScene.currentPlayer)
+
 
             // context.beginPath();
             // context.moveTo(0,0);
@@ -168,10 +182,26 @@ _GS.playScene = function (canvasObj, contextObj) {
             // context.stroke();
         }
 
+        // context.translate(-canvasWidth, 0);
         for (key in characters) {
             characters[key].render(context, canvasWidth, canvasHeight);
         }
+
         TB.render(context, canvasWidth, canvasHeight);
+        // draw current player
+        let walkPhase = Math.ceil(walkCount/5);
+        let x = canvasWidth/2;
+        if (_GS.playScene.currentPlayer.direction === 'left') {
+            context.translate(canvasWidth, 0);
+            context.scale(-1, 1);
+            x = x - 30;
+        }
+        if (_GS.playScene.currentPlayer.isMoving) {
+            context.drawImage(_GS.playScene.images['cp' + walkPhase], x, canvasHeight/2, 30, 30*2);
+        }
+        else {
+            context.drawImage(_GS.playScene.images['cp2'], x, canvasHeight/2, 30, 30*2);
+        }
         context.restore();
     };
     this.updateScene = function () {
@@ -186,10 +216,19 @@ _GS.playScene = function (canvasObj, contextObj) {
         }
 
         frameCount += 1;
+        walkCount += 1;
+        otherWalkCount += 1;
         if (frameCount >= 50) {
             frameCount = 0;
             SOCKET.emit('get rendered division', {blockWH: _GS.playScene.blockWH});
             console.log("Get rendered div!");
+        }
+
+        if (walkCount >= 30) {
+            walkCount = 1;
+        }
+        if (otherWalkCount >= 30) {
+            otherWalkCount = 1;
         }
     };
     this.handleInputScene = function () {
@@ -227,7 +266,22 @@ _GS.playScene.images = {
     slopeLeftBack: createImage('resources/world-tiles/plank-left-back.png'),
     slopeRightBack: createImage('resources/world-tiles/plank-right-back.png'),
     stoneBack: createImage('resources/world-tiles/Stone-back.png'),
-    woodPlankBack: createImage('resources/world-tiles/wood_plank-back.png')
+    woodPlankBack: createImage('resources/world-tiles/wood_plank-back.png'),
+
+    //Players
+    cp1: createImage('resources/characters/walk-me/walk1.png'),
+    cp2: createImage('resources/characters/walk-me/walk2.png'),
+    cp3: createImage('resources/characters/walk-me/walk3.png'),
+    cp4: createImage('resources/characters/walk-me/walk4.png'),
+    cp5: createImage('resources/characters/walk-me/walk5.png'),
+    cp6: createImage('resources/characters/walk-me/walk6.png'),
+
+    op1: createImage('resources/characters/walk-them/walk_000.png'),
+    op2: createImage('resources/characters/walk-them/walk_001.png'),
+    op3: createImage('resources/characters/walk-them/walk_002.png'),
+    op4: createImage('resources/characters/walk-them/walk_003.png'),
+    op5: createImage('resources/characters/walk-them/walk_004.png'),
+    op6: createImage('resources/characters/walk-them/walk_005.png')
 }
 
 // This will be a 2D array retrieved from the server.

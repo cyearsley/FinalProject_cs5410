@@ -16,6 +16,8 @@ module.exports = function (socket, io, rname) {
 			username: socketObj.username,
 			actualX: socketObj.actualX,
 			actualY: socketObj.actualY,
+			isMoving: socketObj.isMoving,
+			direction: socketObj.dir,
 			socket_id: socketsInRoom[ii].split('#')[1]
 		});
 	}
